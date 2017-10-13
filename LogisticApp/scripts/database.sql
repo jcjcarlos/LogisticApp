@@ -1,7 +1,7 @@
 ﻿-- TABELA DE LOCALIDADES
 CREATE TABLE LOCALIDADE (
 	id INT NOT NULL,
-	descricao VARCHAR(30) NOT NULL
+	descricao VARCHAR(30) NOT NULL,
 	CONSTRAINT PK_LOCALIDADE PRIMARY KEY(id)
 );
 
@@ -34,8 +34,18 @@ CREATE TABLE TRECHO (
 
 INSERT INTO LOCALIDADE(id, descricao) VALUES
 (1, 'Patópolis'),
-(2, 'Gansópolis');
+(2, 'Gansópolis'),
+(3, 'Spoornevil'),
+(4, 'Ratolandia');
 
 INSERT INTO ROTA(id, nome, idLocalidadeOrigem, idLocalidadeDestino, capacidadeTransporte, capacidadeAlocada, custoGrama, tempoEntrega, tipo) VALUES
-(1, 'EW001', 1, 2, 100, 0, 0.18, 3, 'D');
+(1, 'EW001', 1, 2, 100, 0, 0.18, 3, 'D'),
+(2, 'EW101', 2, 3, 200, 0, 0.33, 4, 'D'),
+(3, 'WS205', 3, 4, 300, 0, 0.5, 2, 'D'),
+(4, 'ES203', 1, 4, 100, 0, 1.01, 11, 'F');
+
+INSERT INTO TRECHO(idRotaFracionada, idRotaTrecho, ordem) VALUES
+(4, 1, 0),
+(4, 2, 1),
+(4, 3, 2);
 	 

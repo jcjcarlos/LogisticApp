@@ -1,5 +1,6 @@
 package LogisticApp.data.interfaces;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 import LogisticApp.business.entities.Localidade;
@@ -9,7 +10,7 @@ public interface RotaDAO {
 	
 	public abstract void update(Rota rota);
 	public abstract void create(Rota rota);
-	public abstract Collection<Rota> retrieveAll();
+	public abstract Collection<Rota> retrieveAll() throws SQLException;
 	public abstract Rota retrieveById(int id);
 	public abstract Rota retrieveByNome(String nome);
 	public abstract Collection<Rota> retrieveByOriginDestiny(Localidade origem, Localidade destino);
