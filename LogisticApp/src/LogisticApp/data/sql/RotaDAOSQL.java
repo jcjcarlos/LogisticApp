@@ -18,7 +18,7 @@ import LogisticApp.data.queries.RotaQueries;
 public class RotaDAOSQL implements RotaDAO {
 
 	@Override
-	public void update(Rota rota) throws SQLException {
+	public void update(Rota rota) throws Exception {
 		PreparedStatement pstm = DBConnection.getConnection().prepareStatement(RotaQueries.UPDATE_ROTA.getConsulta());
 		pstm.setInt(1, rota.getId());
 		pstm.setString(2, rota.getNome());
@@ -42,7 +42,7 @@ public class RotaDAOSQL implements RotaDAO {
 	}
 
 	@Override
-	public void create(Rota rota) throws SQLException {
+	public void create(Rota rota) throws Exception {
 		PreparedStatement pstm = DBConnection.getConnection().prepareStatement(RotaQueries.INSERT_ROTA.getConsulta());
 		pstm.setInt(1, rota.getId());
 		pstm.setString(2, rota.getNome());
@@ -65,7 +65,7 @@ public class RotaDAOSQL implements RotaDAO {
 	}
 
 	@Override
-	public Collection<Rota> retrieveAll() throws SQLException {
+	public Collection<Rota> retrieveAll() throws Exception {
 		PreparedStatement pstm = DBConnection.getConnection().prepareStatement(RotaQueries.RETRIEVE_ALL.getConsulta());
 		List<Rota> rotas = new ArrayList<Rota>();
 		ResultSet rset = pstm.executeQuery();
@@ -77,7 +77,7 @@ public class RotaDAOSQL implements RotaDAO {
 	}
 
 	@Override
-	public Rota retrieveById(int id) throws SQLException {
+	public Rota retrieveById(int id) throws Exception {
 		PreparedStatement pstm = DBConnection.getConnection()
 				.prepareStatement(RotaQueries.RETRIEVE_BY_ID.getConsulta());
 		pstm.setInt(1, id);
@@ -104,7 +104,7 @@ public class RotaDAOSQL implements RotaDAO {
 	}
 
 	@Override
-	public Collection<Rota> retrieveByOriginDestiny(Localidade origem, Localidade destino) throws SQLException {
+	public Collection<Rota> retrieveByOriginDestiny(Localidade origem, Localidade destino) throws Exception {
 		PreparedStatement pstm = DBConnection.getConnection()
 				.prepareStatement(RotaQueries.RETRIEVE_BY_ORIGIN_DESTINY.getConsulta());
 		pstm.setInt(1, origem.getId());
@@ -118,7 +118,7 @@ public class RotaDAOSQL implements RotaDAO {
 		return rotas;
 	}
 
-	private void updateTrechos(Fracional rota) throws SQLException {
+	private void updateTrechos(Fracional rota) throws Exception {
 		for (int i = 0; i < rota.getTrechosSize(); i++) {
 			int rowModified = this.updateTrecho(rota.getId(), rota.getTrecho(i).getId(), i);
 			if (rowModified == 0)
@@ -126,12 +126,12 @@ public class RotaDAOSQL implements RotaDAO {
 		}
 	}
 
-	private void createTrechos(Fracional rota) throws SQLException {
+	private void createTrechos(Fracional rota) throws Exception {
 		for (int i = 0; i < rota.getTrechosSize(); i++)
 			this.insertTrecho(rota.getId(), rota.getTrecho(i).getId(), i);
 	}
 
-	private void insertTrecho(int idRotaFracional, int idRotaTrecho, int ordem) throws SQLException {
+	private void insertTrecho(int idRotaFracional, int idRotaTrecho, int ordem) throws Exception {
 		PreparedStatement pstm = DBConnection.getConnection().prepareStatement(RotaQueries.INSERT_TRECHO.getConsulta());
 		pstm.setInt(1, idRotaFracional);
 		pstm.setInt(2, idRotaTrecho);
@@ -139,7 +139,7 @@ public class RotaDAOSQL implements RotaDAO {
 		pstm.executeUpdate();
 	}
 
-	private int updateTrecho(int idRotaFracional, int idRotaTrecho, int ordem) throws SQLException {
+	private int updateTrecho(int idRotaFracional, int idRotaTrecho, int ordem) throws Exception {
 		PreparedStatement pstm = DBConnection.getConnection().prepareStatement(RotaQueries.UPDATE_TRECHO.getConsulta());
 		pstm.setInt(1, idRotaFracional);
 		pstm.setInt(2, idRotaTrecho);
@@ -149,7 +149,7 @@ public class RotaDAOSQL implements RotaDAO {
 		return pstm.executeUpdate();
 	}
 
-	private Collection<Rota> retrieveTrechos(int id) throws SQLException {
+	private Collection<Rota> retrieveTrechos(int id) throws Exception {
 		List<Rota> trechos = new ArrayList<Rota>();
 		PreparedStatement pstm = DBConnection.getConnection()
 				.prepareStatement(RotaQueries.RETRIEVE_TRECHOS_BY_ID.getConsulta());

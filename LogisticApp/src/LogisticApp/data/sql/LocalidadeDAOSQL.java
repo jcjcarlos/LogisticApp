@@ -15,7 +15,7 @@ import LogisticApp.data.queries.LocalidadeQueries;
 public class LocalidadeDAOSQL implements LocalidadeDAO {
 
 	@Override
-	public void create(Localidade localidade) throws SQLException {
+	public void create(Localidade localidade) throws Exception {
 		PreparedStatement pstm = DBConnection.getConnection()
 				.prepareStatement(LocalidadeQueries.CREATE_LOCALIDADE.getConsulta());
 		pstm.setInt(1, localidade.getId());
@@ -24,7 +24,7 @@ public class LocalidadeDAOSQL implements LocalidadeDAO {
 	}
 
 	@Override
-	public void update(Localidade localidade) throws SQLException {
+	public void update(Localidade localidade) throws Exception {
 		PreparedStatement pstm = DBConnection.getConnection()
 				.prepareStatement(LocalidadeQueries.UPDATE_LOCALIDADE.getConsulta());
 		pstm.setInt(1, localidade.getId());
@@ -34,7 +34,7 @@ public class LocalidadeDAOSQL implements LocalidadeDAO {
 	}
 
 	@Override
-	public Localidade retrieveById(int id) throws SQLException {
+	public Localidade retrieveById(int id) throws Exception {
 		PreparedStatement pstm = DBConnection.getConnection()
 				.prepareStatement(LocalidadeQueries.RETRIEVE_BY_ID.getConsulta());
 		pstm.setInt(1, id);
@@ -46,7 +46,7 @@ public class LocalidadeDAOSQL implements LocalidadeDAO {
 	}
 
 	@Override
-	public Collection<Localidade> retrieveAll() throws SQLException {
+	public Collection<Localidade> retrieveAll() throws Exception {
 		List<Localidade> localidades = new ArrayList<Localidade>();
 		PreparedStatement pstm = DBConnection.getConnection()
 				.prepareStatement(LocalidadeQueries.RETRIEVE_ALL.getConsulta());
