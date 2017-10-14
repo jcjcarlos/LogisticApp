@@ -93,7 +93,7 @@ public class RotaDAOSQL implements RotaDAO {
 				Localidade destino = localidadeDAO.retrieveById(rset.getInt("idLocalidadeDestino"));
 				rota = new Direta(id_, nome, origem, destino, rset.getDouble("capacidadeTotal"),
 						rset.getDouble("capacidadeAlocada"), rset.getDouble("custoGrama"), rset.getInt("tempoEntrega"));
-			} else {
+			} else if (tipo == 'F') {
 				Collection<Rota> trechos = this.retrieveTrechos(id_);
 				Fracional fracional = new Fracional(id_, nome);
 				fracional.addTrecho(trechos);
