@@ -140,10 +140,12 @@ public class RotaDAOSQL implements RotaDAO {
 	}
 
 	private int updateTrecho(int idRotaFracional, int idRotaTrecho, int ordem) throws SQLException {
-		PreparedStatement pstm = DBConnection.getConnection().prepareStatement(RotaQueries.INSERT_TRECHO.getConsulta());
+		PreparedStatement pstm = DBConnection.getConnection().prepareStatement(RotaQueries.UPDATE_TRECHO.getConsulta());
 		pstm.setInt(1, idRotaFracional);
 		pstm.setInt(2, idRotaTrecho);
 		pstm.setInt(3, ordem);
+		pstm.setInt(4, idRotaFracional);
+		pstm.setInt(5, ordem);
 		return pstm.executeUpdate();
 	}
 
