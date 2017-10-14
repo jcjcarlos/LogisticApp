@@ -11,11 +11,9 @@ public interface RotaDAO {
 	public abstract void update(Rota rota);
 	public abstract void create(Rota rota);
 	public abstract Collection<Rota> retrieveAll() throws SQLException;
-	public abstract Rota retrieveById(int id);
-	public abstract Rota retrieveByNome(String nome);
+	public abstract Rota retrieveById(int id) throws SQLException;
 	public abstract Collection<Rota> retrieveByOriginDestiny(Localidade origem, Localidade destino);
 	public abstract void delete(Rota rota);
 	public abstract void deleteById(int id);
-	public abstract void deleteByNome(String nome);
 
 }

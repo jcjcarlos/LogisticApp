@@ -11,7 +11,7 @@ CREATE TABLE ROTA (
 	nome VARCHAR(30) NOT NULL,
 	idLocalidadeOrigem INT NOT NULL,
 	idLocalidadeDestino INT NOT NULL,
-	capacidadeTransporte FLOAT NULL,
+	capacidadeTotal FLOAT NULL,
 	capacidadeAlocada FLOAT NULL,
 	custoGrama FLOAT NULL,
 	tempoEntrega INT NULL,

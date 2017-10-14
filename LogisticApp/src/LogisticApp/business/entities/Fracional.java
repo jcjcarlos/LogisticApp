@@ -2,6 +2,7 @@ package LogisticApp.business.entities;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class Fracional extends Rota {
 	
@@ -14,6 +15,10 @@ public class Fracional extends Rota {
 	
 	public void addTrecho(Rota rota){
 		this.trechos.add(rota);
+	}
+	
+	public void addTrecho(Collection<Rota> rotas){
+		this.trechos.addAll(rotas);
 	}
 
 	@Override
