@@ -1,7 +1,7 @@
 package LogisticApp.business.entities;
 
 public class Direta extends Rota {
-	
+
 	private Localidade origem;
 	private Localidade destino;
 	private double capacidadeTotal;
@@ -9,13 +9,8 @@ public class Direta extends Rota {
 	private double custoGrama;
 	private int tempoEntrega;
 
-	public Direta(int id, String nome, 
-				  Localidade origem, 
-				  Localidade destino, 
-				  double capacidadeTotal, 
-				  double capacidadeAlocada,
-				  double custoGrama,
-				  int tempoEntrega) {
+	public Direta(int id, String nome, Localidade origem, Localidade destino, double capacidadeTotal,
+			double capacidadeAlocada, double custoGrama, int tempoEntrega) {
 		super(id, nome);
 		this.setOrigem(origem);
 		this.setDestino(destino);
@@ -36,11 +31,11 @@ public class Direta extends Rota {
 	}
 
 	@Override
-	public int getTempoEntrega(){
+	public int getTempoEntrega() {
 		return this.tempoEntrega;
 	}
-	
-	public void aumentarCapacidadeAlocada(double volume){
+
+	public void aumentarCapacidadeAlocada(double volume) {
 		this.setCapacidadeAlocada(this.getCapacidadeAlocada() + volume);
 	}
 
@@ -67,12 +62,12 @@ public class Direta extends Rota {
 	public void setCapacidadeTotal(double capacidadeTotal) {
 		this.capacidadeTotal = capacidadeTotal;
 	}
-	
-	public double getCapacidadeAlocada(){
+
+	public double getCapacidadeAlocada() {
 		return this.capacidadeAlocada;
 	}
-	
-	public void setCapacidadeAlocada(double capacidadeAlocada){
+
+	public void setCapacidadeAlocada(double capacidadeAlocada) {
 		this.capacidadeAlocada = capacidadeAlocada;
 	}
 

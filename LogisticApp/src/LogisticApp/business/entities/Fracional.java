@@ -5,29 +5,37 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class Fracional extends Rota {
-	
+
 	private List<Rota> trechos;
 
 	public Fracional(int id, String nome) {
 		super(id, nome);
 		this.trechos = new ArrayList<Rota>();
 	}
-	
-	public void addTrecho(Rota rota){
+
+	public void addTrecho(Rota rota) {
 		this.trechos.add(rota);
 	}
-	
-	public void addTrecho(Collection<Rota> rotas){
+
+	public void addTrecho(Collection<Rota> rotas) {
 		this.trechos.addAll(rotas);
+	}
+	
+	public int getTrechosSize(){
+		return this.trechos.size();
+	}
+	
+	public Rota getTrecho(int index){
+		return this.trechos.get(index);
 	}
 
 	@Override
 	public double getCapacidadeTransporte() {
 		Rota menor = null;
-		for(Rota rota : this.trechos){
-			if(menor == null)
+		for (Rota rota : this.trechos) {
+			if (menor == null)
 				menor = rota;
-			else if(rota.getCapacidadeTransporte() < menor.getCapacidadeTransporte())
+			else if (rota.getCapacidadeTransporte() < menor.getCapacidadeTransporte())
 				menor = rota;
 		}
 		return (menor == null) ? 0 : menor.getCapacidadeTransporte();
@@ -36,7 +44,7 @@ public class Fracional extends Rota {
 	@Override
 	public double getCustoGrama() {
 		double soma = 0;
-		for(Rota rota : this.trechos)
+		for (Rota rota : this.trechos)
 			soma += rota.getCustoGrama();
 		return soma * 0.8;
 	}
@@ -44,14 +52,14 @@ public class Fracional extends Rota {
 	@Override
 	public int getTempoEntrega() {
 		int soma = 0;
-		for(Rota rota : this.trechos)
+		for (Rota rota : this.trechos)
 			soma += rota.getTempoEntrega();
 		return soma + this.trechos.size() - 1;
 	}
 
 	@Override
 	public void aumentarCapacidadeAlocada(double volume) {
-		for(Rota rota : this.trechos)
+		for (Rota rota : this.trechos)
 			rota.aumentarCapacidadeAlocada(volume);
 	}
 
