@@ -75,7 +75,7 @@ public class ContratacaoTransporte implements LogisticaSessao {
 		String result = "";
 		result += rota.getNome() + " - ";
 		result += rota.getTempoEntrega() + " dias - R$ ";
-		result += this.calcularValorPeso(rota.getCustoGrama());
+		result += String.format("%.2f", this.calcularValorPeso(rota.getCustoGrama()));
 		return result;
 	}
 
