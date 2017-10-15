@@ -1,4 +1,4 @@
-package LogisticApp.view.interfaces;
+package LogisticApp.view;
 
 import java.awt.Color;
 import java.awt.Font;
