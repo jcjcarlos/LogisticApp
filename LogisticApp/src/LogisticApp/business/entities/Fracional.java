@@ -1,8 +1,8 @@
 package LogisticApp.business.entities;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class Fracional extends Rota {
 
@@ -13,22 +13,20 @@ public class Fracional extends Rota {
 		this.trechos = new ArrayList<Rota>();
 	}
 
-	public void addTrecho(Rota rota) {
-		this.trechos.add(rota);
-	}
-
 	public void addTrecho(Collection<Rota> rotas) {
 		this.trechos.addAll(rotas);
 	}
-	
-	public int getTrechosSize(){
-		return this.trechos.size();
-	}
-	
-	public Rota getTrecho(int index){
-		return this.trechos.get(index);
-	}
 
+	public void addTrecho(Rota rota) {
+		this.trechos.add(rota);
+	}
+	
+	@Override
+	public void aumentarCapacidadeAlocada(double volume) {
+		for (Rota rota : this.trechos)
+			rota.aumentarCapacidadeAlocada(volume);
+	}
+	
 	@Override
 	public double getCapacidadeTransporte() {
 		Rota menor = null;
@@ -50,17 +48,8 @@ public class Fracional extends Rota {
 	}
 
 	@Override
-	public int getTempoEntrega() {
-		int soma = 0;
-		for (Rota rota : this.trechos)
-			soma += rota.getTempoEntrega();
-		return soma + this.trechos.size() - 1;
-	}
-
-	@Override
-	public void aumentarCapacidadeAlocada(double volume) {
-		for (Rota rota : this.trechos)
-			rota.aumentarCapacidadeAlocada(volume);
+	public Localidade getDestino() {
+		return (this.trechos.isEmpty()) ? null : this.trechos.get(this.trechos.size() - 1).getDestino();
 	}
 
 	@Override
@@ -69,8 +58,19 @@ public class Fracional extends Rota {
 	}
 
 	@Override
-	public Localidade getDestino() {
-		return (this.trechos.isEmpty()) ? null : this.trechos.get(this.trechos.size() - 1).getDestino();
+	public int getTempoEntrega() {
+		int soma = 0;
+		for (Rota rota : this.trechos)
+			soma += rota.getTempoEntrega();
+		return soma + this.trechos.size() - 1;
+	}
+
+	public Rota getTrecho(int index){
+		return this.trechos.get(index);
+	}
+
+	public int getTrechosSize(){
+		return this.trechos.size();
 	}
 
 }

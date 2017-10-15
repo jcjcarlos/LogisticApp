@@ -10,29 +10,7 @@ public abstract class Rota {
 		this.setNome(nome);
 	}
 
-	private void setId(int id) {
-		this.id = id;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getNome() {
-		return this.nome;
-	}
-
-	public int getId() {
-		return this.id;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		return result;
-	}
+	public abstract void aumentarCapacidadeAlocada(double volume);
 
 	@Override
 	public boolean equals(Object obj) {
@@ -51,16 +29,38 @@ public abstract class Rota {
 		return true;
 	}
 
-	public abstract Localidade getOrigem();
-
-	public abstract Localidade getDestino();
-
 	public abstract double getCapacidadeTransporte();
 
 	public abstract double getCustoGrama();
 
+	public abstract Localidade getDestino();
+
+	public int getId() {
+		return this.id;
+	}
+
+	public String getNome() {
+		return this.nome;
+	}
+
+	public abstract Localidade getOrigem();
+
 	public abstract int getTempoEntrega();
 
-	public abstract void aumentarCapacidadeAlocada(double volume);
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		return result;
+	}
+
+	private void setId(int id) {
+		this.id = id;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
 }

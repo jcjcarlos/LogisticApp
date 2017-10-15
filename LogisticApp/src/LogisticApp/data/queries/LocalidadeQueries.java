@@ -5,19 +5,19 @@ public enum LocalidadeQueries {
 	CREATE_LOCALIDADE ("INSERT INTO LOCALIDADE(id, descricao) "
 				     + "VALUES (?, ?)"),
 	
-	UPDATE_LOCALIDADE ("UPDATE LOCALIDADE "
-			         + "SET id = ?, "
-			         + "descricao = ? "
-			         + "WHERE id = ?"),
+	RETRIEVE_ALL ("SELECT id, "
+				+ "descricao "
+				+ "FROM LOCALIDADE"),
 	
 	RETRIEVE_BY_ID ("SELECT id, "
 			      + "descricao "
 			      + "FROM LOCALIDADE "
 			      + "WHERE id = ?"),
 	
-	RETRIEVE_ALL ("SELECT id, "
-				+ "descricao "
-				+ "FROM LOCALIDADE");
+	UPDATE_LOCALIDADE ("UPDATE LOCALIDADE "
+			         + "SET id = ?, "
+			         + "descricao = ? "
+			         + "WHERE id = ?");
 	
 	private String consulta;
 	

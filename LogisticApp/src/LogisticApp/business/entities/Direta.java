@@ -2,11 +2,11 @@ package LogisticApp.business.entities;
 
 public class Direta extends Rota {
 
-	private Localidade origem;
-	private Localidade destino;
-	private double capacidadeTotal;
 	private double capacidadeAlocada;
+	private double capacidadeTotal;
 	private double custoGrama;
+	private Localidade destino;
+	private Localidade origem;
 	private int tempoEntrega;
 
 	public Direta(int id, String nome, Localidade origem, Localidade destino, double capacidadeTotal,
@@ -20,6 +20,18 @@ public class Direta extends Rota {
 		this.setTempoEntrega(tempoEntrega);
 	}
 
+	public void aumentarCapacidadeAlocada(double volume) {
+		this.setCapacidadeAlocada(this.getCapacidadeAlocada() + volume);
+	}
+
+	public double getCapacidadeAlocada() {
+		return this.capacidadeAlocada;
+	}
+
+	public double getCapacidadeTotal() {
+		return capacidadeTotal;
+	}
+
 	@Override
 	public double getCapacidadeTransporte() {
 		return this.getCapacidadeTotal() - this.getCapacidadeAlocada();
@@ -30,49 +42,37 @@ public class Direta extends Rota {
 		return this.custoGrama;
 	}
 
-	@Override
-	public int getTempoEntrega() {
-		return this.tempoEntrega;
-	}
-
-	public void aumentarCapacidadeAlocada(double volume) {
-		this.setCapacidadeAlocada(this.getCapacidadeAlocada() + volume);
+	public Localidade getDestino() {
+		return destino;
 	}
 
 	public Localidade getOrigem() {
 		return origem;
 	}
 
-	public void setOrigem(Localidade origem) {
-		this.origem = origem;
-	}
-
-	public Localidade getDestino() {
-		return destino;
-	}
-
-	public void setDestino(Localidade destino) {
-		this.destino = destino;
-	}
-
-	public double getCapacidadeTotal() {
-		return capacidadeTotal;
-	}
-
-	public void setCapacidadeTotal(double capacidadeTotal) {
-		this.capacidadeTotal = capacidadeTotal;
-	}
-
-	public double getCapacidadeAlocada() {
-		return this.capacidadeAlocada;
+	@Override
+	public int getTempoEntrega() {
+		return this.tempoEntrega;
 	}
 
 	public void setCapacidadeAlocada(double capacidadeAlocada) {
 		this.capacidadeAlocada = capacidadeAlocada;
 	}
 
+	public void setCapacidadeTotal(double capacidadeTotal) {
+		this.capacidadeTotal = capacidadeTotal;
+	}
+
 	public void setCustoGrama(double custoGrama) {
 		this.custoGrama = custoGrama;
+	}
+
+	public void setDestino(Localidade destino) {
+		this.destino = destino;
+	}
+
+	public void setOrigem(Localidade origem) {
+		this.origem = origem;
 	}
 
 	public void setTempoEntrega(int tempoEntrega) {

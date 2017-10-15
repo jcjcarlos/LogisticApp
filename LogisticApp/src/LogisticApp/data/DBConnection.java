@@ -9,8 +9,6 @@ public class DBConnection {
 
 	private static Connection connection = null;
 	
-	private DBConnection(){ }
-
 	public static Connection getConnection() throws SQLException, IOException {
 		if (connection == null) {
 			DriverManager.registerDriver(new org.postgresql.Driver());
@@ -18,5 +16,7 @@ public class DBConnection {
 		}
 		return connection;
 	}
+
+	private DBConnection(){ }
 
 }

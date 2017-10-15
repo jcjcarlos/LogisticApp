@@ -2,7 +2,6 @@ package LogisticApp.data.sql;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -16,30 +15,6 @@ import LogisticApp.data.interfaces.RotaDAO;
 import LogisticApp.data.queries.RotaQueries;
 
 public class RotaDAOSQL implements RotaDAO {
-
-	@Override
-	public void update(Rota rota) throws Exception {
-		PreparedStatement pstm = DBConnection.getConnection().prepareStatement(RotaQueries.UPDATE_ROTA.getConsulta());
-		pstm.setInt(1, rota.getId());
-		pstm.setString(2, rota.getNome());
-		pstm.setObject(3, (rota.getOrigem() == null) ? null : rota.getOrigem().getId());
-		pstm.setObject(4, (rota.getDestino() == null) ? null : rota.getDestino().getId());
-		pstm.setDouble(7, rota.getCustoGrama());
-		pstm.setInt(8, rota.getTempoEntrega());
-		pstm.setInt(10, rota.getId());
-		if (rota instanceof Direta) {
-			Direta direta = (Direta) rota;
-			pstm.setDouble(5, direta.getCapacidadeTotal());
-			pstm.setDouble(6, direta.getCapacidadeAlocada());
-			pstm.setString(9, "D");
-		} else if (rota instanceof Fracional) {
-			pstm.setObject(5, null);
-			pstm.setObject(6, null);
-			pstm.setString(9, "F");
-			this.updateTrechos((Fracional) rota);
-		}
-		pstm.executeUpdate();
-	}
 
 	@Override
 	public void create(Rota rota) throws Exception {
@@ -61,6 +36,19 @@ public class RotaDAOSQL implements RotaDAO {
 			pstm.setString(9, "F");
 			this.createTrechos((Fracional) rota);
 		}
+		pstm.executeUpdate();
+	}
+
+	private void createTrechos(Fracional rota) throws Exception {
+		for (int i = 0; i < rota.getTrechosSize(); i++)
+			this.insertTrecho(rota.getId(), rota.getTrecho(i).getId(), i);
+	}
+
+	private void insertTrecho(int idRotaFracional, int idRotaTrecho, int ordem) throws Exception {
+		PreparedStatement pstm = DBConnection.getConnection().prepareStatement(RotaQueries.INSERT_TRECHO.getConsulta());
+		pstm.setInt(1, idRotaFracional);
+		pstm.setInt(2, idRotaTrecho);
+		pstm.setInt(3, ordem);
 		pstm.executeUpdate();
 	}
 
@@ -118,24 +106,40 @@ public class RotaDAOSQL implements RotaDAO {
 		return rotas;
 	}
 
-	private void updateTrechos(Fracional rota) throws Exception {
-		for (int i = 0; i < rota.getTrechosSize(); i++) {
-			int rowModified = this.updateTrecho(rota.getId(), rota.getTrecho(i).getId(), i);
-			if (rowModified == 0)
-				this.insertTrecho(rota.getId(), rota.getTrecho(i).getId(), i);
+	private Collection<Rota> retrieveTrechos(int id) throws Exception {
+		List<Rota> trechos = new ArrayList<Rota>();
+		PreparedStatement pstm = DBConnection.getConnection()
+				.prepareStatement(RotaQueries.RETRIEVE_TRECHOS_BY_ID.getConsulta());
+		pstm.setInt(1, id);
+		ResultSet resultSet = pstm.executeQuery();
+		while (resultSet.next()) {
+			Rota trecho = this.retrieveById(resultSet.getInt("idRotaTrecho"));
+			trechos.add(trecho);
 		}
+		return trechos;
 	}
 
-	private void createTrechos(Fracional rota) throws Exception {
-		for (int i = 0; i < rota.getTrechosSize(); i++)
-			this.insertTrecho(rota.getId(), rota.getTrecho(i).getId(), i);
-	}
-
-	private void insertTrecho(int idRotaFracional, int idRotaTrecho, int ordem) throws Exception {
-		PreparedStatement pstm = DBConnection.getConnection().prepareStatement(RotaQueries.INSERT_TRECHO.getConsulta());
-		pstm.setInt(1, idRotaFracional);
-		pstm.setInt(2, idRotaTrecho);
-		pstm.setInt(3, ordem);
+	@Override
+	public void update(Rota rota) throws Exception {
+		PreparedStatement pstm = DBConnection.getConnection().prepareStatement(RotaQueries.UPDATE_ROTA.getConsulta());
+		pstm.setInt(1, rota.getId());
+		pstm.setString(2, rota.getNome());
+		pstm.setObject(3, (rota.getOrigem() == null) ? null : rota.getOrigem().getId());
+		pstm.setObject(4, (rota.getDestino() == null) ? null : rota.getDestino().getId());
+		pstm.setDouble(7, rota.getCustoGrama());
+		pstm.setInt(8, rota.getTempoEntrega());
+		pstm.setInt(10, rota.getId());
+		if (rota instanceof Direta) {
+			Direta direta = (Direta) rota;
+			pstm.setDouble(5, direta.getCapacidadeTotal());
+			pstm.setDouble(6, direta.getCapacidadeAlocada());
+			pstm.setString(9, "D");
+		} else if (rota instanceof Fracional) {
+			pstm.setObject(5, null);
+			pstm.setObject(6, null);
+			pstm.setString(9, "F");
+			this.updateTrechos((Fracional) rota);
+		}
 		pstm.executeUpdate();
 	}
 
@@ -149,17 +153,12 @@ public class RotaDAOSQL implements RotaDAO {
 		return pstm.executeUpdate();
 	}
 
-	private Collection<Rota> retrieveTrechos(int id) throws Exception {
-		List<Rota> trechos = new ArrayList<Rota>();
-		PreparedStatement pstm = DBConnection.getConnection()
-				.prepareStatement(RotaQueries.RETRIEVE_TRECHOS_BY_ID.getConsulta());
-		pstm.setInt(1, id);
-		ResultSet resultSet = pstm.executeQuery();
-		while (resultSet.next()) {
-			Rota trecho = this.retrieveById(resultSet.getInt("idRotaTrecho"));
-			trechos.add(trecho);
+	private void updateTrechos(Fracional rota) throws Exception {
+		for (int i = 0; i < rota.getTrechosSize(); i++) {
+			int rowModified = this.updateTrecho(rota.getId(), rota.getTrecho(i).getId(), i);
+			if (rowModified == 0)
+				this.insertTrecho(rota.getId(), rota.getTrecho(i).getId(), i);
 		}
-		return trechos;
 	}
 
 }

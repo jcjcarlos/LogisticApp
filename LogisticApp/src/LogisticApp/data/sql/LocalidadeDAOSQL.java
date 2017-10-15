@@ -2,7 +2,6 @@ package LogisticApp.data.sql;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -24,13 +23,16 @@ public class LocalidadeDAOSQL implements LocalidadeDAO {
 	}
 
 	@Override
-	public void update(Localidade localidade) throws Exception {
+	public Collection<Localidade> retrieveAll() throws Exception {
+		List<Localidade> localidades = new ArrayList<Localidade>();
 		PreparedStatement pstm = DBConnection.getConnection()
-				.prepareStatement(LocalidadeQueries.UPDATE_LOCALIDADE.getConsulta());
-		pstm.setInt(1, localidade.getId());
-		pstm.setString(2, localidade.getDescricao());
-		pstm.setInt(3, localidade.getId());
-		pstm.executeUpdate();
+				.prepareStatement(LocalidadeQueries.RETRIEVE_ALL.getConsulta());
+		ResultSet rset = pstm.executeQuery();
+		while (rset.next()) {
+			Localidade localidade = new Localidade(rset.getInt("id"), rset.getString("descricao"));
+			localidades.add(localidade);
+		}
+		return localidades;
 	}
 
 	@Override
@@ -46,16 +48,13 @@ public class LocalidadeDAOSQL implements LocalidadeDAO {
 	}
 
 	@Override
-	public Collection<Localidade> retrieveAll() throws Exception {
-		List<Localidade> localidades = new ArrayList<Localidade>();
+	public void update(Localidade localidade) throws Exception {
 		PreparedStatement pstm = DBConnection.getConnection()
-				.prepareStatement(LocalidadeQueries.RETRIEVE_ALL.getConsulta());
-		ResultSet rset = pstm.executeQuery();
-		while (rset.next()) {
-			Localidade localidade = new Localidade(rset.getInt("id"), rset.getString("descricao"));
-			localidades.add(localidade);
-		}
-		return localidades;
+				.prepareStatement(LocalidadeQueries.UPDATE_LOCALIDADE.getConsulta());
+		pstm.setInt(1, localidade.getId());
+		pstm.setString(2, localidade.getDescricao());
+		pstm.setInt(3, localidade.getId());
+		pstm.executeUpdate();
 	}
 
 }

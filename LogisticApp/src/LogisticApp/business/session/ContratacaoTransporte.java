@@ -12,8 +12,8 @@ import LogisticApp.data.sql.RotaDAOSQL;
 
 public class ContratacaoTransporte implements LogisticaSessao {
 
-	private Localidade origem;
 	private Localidade destino;
+	private Localidade origem;
 	private double pesoVolume;
 	private RotaDAO rotaDAO;
 
@@ -24,34 +24,18 @@ public class ContratacaoTransporte implements LogisticaSessao {
 		this.rotaDAO = new RotaDAOSQL();
 	}
 
-	public Localidade getOrigem() {
-		return this.origem;
-	}
-
-	public void setOrigem(Localidade origem) {
-		this.origem = origem;
-	}
-
-	public Localidade getDestino() {
-		return this.destino;
-	}
-
-	public void setDestino(Localidade destino) {
-		this.destino = destino;
-	}
-
-	public double getPesoVolume() {
-		return this.pesoVolume;
-	}
-
-	public void setPesoVolume(double pesoVolume) {
-		this.pesoVolume = pesoVolume;
-	}
-
 	public void atualizarRota(int idRota) throws Exception {
 		Rota rota = this.rotaDAO.retrieveById(idRota);
 		rota.aumentarCapacidadeAlocada(this.getPesoVolume());
 		this.rotaDAO.update(rota);
+	}
+
+	private double calcularValorPeso(double custoGrama) {
+		return this.getPesoVolume() * 1000 * custoGrama;
+	}
+
+	public Localidade getDestino() {
+		return this.destino;
 	}
 
 	public Map<Integer, String> getInfoRotasCapacitadas() throws Exception {
@@ -60,6 +44,14 @@ public class ContratacaoTransporte implements LogisticaSessao {
 		for (Rota rota : rotas)
 			rotasCapacitadas.put(rota.getId(), mensagemInfoRota(rota));
 		return rotasCapacitadas;
+	}
+
+	public Localidade getOrigem() {
+		return this.origem;
+	}
+
+	public double getPesoVolume() {
+		return this.pesoVolume;
 	}
 
 	private Collection<Rota> getRotasCapacitadas() throws Exception {
@@ -79,8 +71,16 @@ public class ContratacaoTransporte implements LogisticaSessao {
 		return result;
 	}
 
-	private double calcularValorPeso(double custoGrama) {
-		return this.getPesoVolume() * 1000 * custoGrama;
+	public void setDestino(Localidade destino) {
+		this.destino = destino;
+	}
+
+	public void setOrigem(Localidade origem) {
+		this.origem = origem;
+	}
+
+	public void setPesoVolume(double pesoVolume) {
+		this.pesoVolume = pesoVolume;
 	}
 
 }
