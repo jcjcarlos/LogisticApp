@@ -18,7 +18,7 @@ public class DBParams {
 	
 	private DBParams(){ }
 	
-	public static String getURI throws IOException {
+	public static String getURI() throws IOException {
 		return String.format("%1$s:%2$s://%3$s:%4$s/%5$s", DBParams.getDRIVER(),
 				     				   DBParams.getSGBD(),
 				     				   DBParams.getHOST(),
