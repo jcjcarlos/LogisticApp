@@ -26,7 +26,7 @@ public class DBParams {
 			String line = reader.readLine().trim();
 			while(line != null){
 				if(line.startsWith("DRIVER:")){
-					Driver = line.substring(7, line.length()) + ":";
+					DRIVER = line.substring(7, line.length()) + ":";
 					break;
 				}
 				line = reader.readLine().trim();
