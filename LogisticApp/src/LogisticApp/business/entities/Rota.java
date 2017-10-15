@@ -30,7 +30,6 @@ public abstract class Rota {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		return result;
 	}
@@ -44,8 +43,6 @@ public abstract class Rota {
 		if (getClass() != obj.getClass())
 			return false;
 		Rota other = (Rota) obj;
-		if (id != other.id)
-			return false;
 		if (nome == null) {
 			if (other.nome != null)
 				return false;
