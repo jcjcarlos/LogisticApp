@@ -12,10 +12,7 @@ public class DBConnection {
 	public static Connection getConnection() throws SQLException, IOException {
 		if (connection == null) {
 			DriverManager.registerDriver(new org.postgresql.Driver());
-			connection = DriverManager.getConnection(DBParams.getDRIVER() + DBParams.getSGDB()
-								+ DBParams.getHOST() + DBParams.getPORT() 
-								+ DBParams.getDATABASE(), DBParams.getUSER(),
-								DBParams.getPWD());
+			connection = DriverManager.getConnection(DBParams.getURI(), DBParams.getUSER(), DBParams.getPWD());
 		}
 		return connection;
 	}
