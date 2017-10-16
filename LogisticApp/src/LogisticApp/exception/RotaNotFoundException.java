@@ -2,22 +2,22 @@ package LogisticApp.exception;
 
 public class RotaNotFoundException extends Exception {
 
-	private String nome;
+	private String message;
 	
 	public RotaNotFoundException(Exception e){
 		super(e);
 	}
 	
-	public RotaNotFoundException(String nome){
-		this.nome = nome;
+	public RotaNotFoundException(String message){
+		this.message = message;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getMessage() {
+		return message;
 	}
 
 	public String toString(){
-		return "RotaNotFoundException : [Nome da rota: " + this.getNome() + "]";
+		return "RotaNotFoundException : [ " + this.message + " ] ";
 	}
 	
 }
