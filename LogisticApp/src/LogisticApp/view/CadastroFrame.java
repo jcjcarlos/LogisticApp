@@ -6,9 +6,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import LogisticApp.view.interfaces.IApplicationView;
+import LogisticApp.view.interfaces.ILogisticFrame;
 
-public class CadastroFrame extends JFrame implements ActionListener, IApplicationView {
+public class CadastroFrame extends JFrame implements ActionListener, ILogisticFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JButton btnLocalidade;
@@ -17,7 +17,7 @@ public class CadastroFrame extends JFrame implements ActionListener, IApplicatio
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		IApplicationView next = null;
+		ILogisticFrame next = null;
 		if (e.getSource().equals(this.btnLocalidade))
 			next = new LocalidadeFrame();
 		else if (e.getSource().equals(this.btnRota))
@@ -25,13 +25,13 @@ public class CadastroFrame extends JFrame implements ActionListener, IApplicatio
 		else if (e.getSource().equals(this.btnVoltar))
 			next = new MenuFrame();
 		if (next != null) {
-			next.start();
+			next.show();
 			this.dispose();
 		}
 	}
 
 	@Override
-	public void start() {
+	public void show() {
 		// TODO Auto-generated method stub
 
 	}

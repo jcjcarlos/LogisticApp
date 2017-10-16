@@ -16,8 +16,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import LogisticApp.view.interfaces.IApplicationView;
+import LogisticApp.view.interfaces.ILogisticFrame;
 
-public class MenuFrame extends JFrame implements ActionListener, IApplicationView {
+public class MenuFrame extends JFrame implements ActionListener, IApplicationView, ILogisticFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -26,13 +27,13 @@ public class MenuFrame extends JFrame implements ActionListener, IApplicationVie
 	private JLabel lblTitle;
 
 	public void actionPerformed(ActionEvent e) {
-		IApplicationView next = null;
+		ILogisticFrame next = null;
 		if (e.getSource().equals(this.btnCadastro))
 			next = new CadastroFrame();
 		else if (e.getSource().equals(this.btnContratacao))
 			next = new MenuContratacaoTransporteFrame();
 		if (next != null) {
-			next.start();
+			next.show();
 			this.dispose();
 		}
 	}
@@ -92,6 +93,11 @@ public class MenuFrame extends JFrame implements ActionListener, IApplicationVie
 
 	@Override
 	public void start() {
+		this.show();
+	}
+	
+	@Override
+	public void show(){
 		this.setTitle("LogisticApp");
 		this.setBounds(100, 100, 273, 299);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

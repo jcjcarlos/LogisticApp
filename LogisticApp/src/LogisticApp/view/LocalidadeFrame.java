@@ -1,11 +1,11 @@
 package LogisticApp.view;
 
-import LogisticApp.view.interfaces.IApplicationView;
+import LogisticApp.view.interfaces.ILogisticFrame;
 
-public class LocalidadeFrame implements IApplicationView {
+public class LocalidadeFrame implements ILogisticFrame {
 
 	@Override
-	public void start() {
+	public void show() {
 		// TODO Auto-generated method stub
 		
 	}

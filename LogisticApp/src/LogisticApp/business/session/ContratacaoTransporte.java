@@ -1,16 +1,19 @@
 package LogisticApp.business.session;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import LogisticApp.business.entities.Localidade;
 import LogisticApp.business.entities.Rota;
 import LogisticApp.business.session.interfaces.IContratacaoTransporteSession;
-import LogisticApp.data.interfaces.IRotaDAO;
 import LogisticApp.data.interfaces.ILocalidadeDAO;
-import LogisticApp.data.sql.RotaDAOSQL;
+import LogisticApp.data.interfaces.IRotaDAO;
 import LogisticApp.data.sql.LocalidadeDAOSQL;
+import LogisticApp.data.sql.RotaDAOSQL;
+import LogisticApp.view.vo.LocalidadeVO;
+import LogisticApp.view.vo.RotaCapacitadaVO;
+import LogisticApp.view.vo.RotaVO;
 
 public class ContratacaoTransporte implements IContratacaoTransporteSession {
 
@@ -34,14 +37,15 @@ public class ContratacaoTransporte implements IContratacaoTransporteSession {
 	}
 
 	@Override
-	public Map<Integer, String> getInfoRotasCapacitadas(int idOrigem, int idDestino, double pesoVolume)
+	public List<RotaVO> getInfoRotasCapacitadas(int idOrigem, int idDestino, double pesoVolume)
 			throws Exception {
-		Map<Integer, String> rotasCapacitadas = new HashMap<Integer, String>();
+		List<RotaVO> rotasCapacitadas = new ArrayList<RotaVO>();
 		Localidade origem = this.localidadeDAO.retrieveById(idOrigem);
 		Localidade destino = this.localidadeDAO.retrieveById(idDestino);
 		Collection<Rota> rotas = this.getRotasCapacitadas(origem, destino, pesoVolume);
 		for (Rota rota : rotas)
-			rotasCapacitadas.put(rota.getId(), mensagemInfoRota(rota, pesoVolume));
+			rotasCapacitadas.add(new RotaCapacitadaVO(rota.getId(), rota.getNome(), pesoVolume,
+					this.calcularValorPeso(rota.getCustoGrama(), pesoVolume)));
 		return rotasCapacitadas;
 	}
 
@@ -55,20 +59,12 @@ public class ContratacaoTransporte implements IContratacaoTransporteSession {
 		return rotas;
 	}
 
-	private String mensagemInfoRota(Rota rota, double pesoVolume) {
-		String result = "";
-		result += rota.getNome() + " - ";
-		result += rota.getTempoEntrega() + " dias - R$ ";
-		result += String.format("%.2f", this.calcularValorPeso(rota.getCustoGrama(), pesoVolume));
-		return result;
-	}
-
 	@Override
-	public Map<Integer, String> recuperarLocalidades() throws Exception {
-		Map<Integer, String> localidades = new HashMap<Integer, String>();
+	public List<LocalidadeVO> recuperarLocalidades() throws Exception {
 		Collection<Localidade> locais = this.localidadeDAO.retrieveAll();
+		List<LocalidadeVO> localidades = new ArrayList<LocalidadeVO>();
 		for (Localidade local : locais)
-			localidades.put(local.getId(), local.getDescricao());
+			localidades.add(new LocalidadeVO(local.getId(), local.getDescricao()));
 		return localidades;
 	}
 
