@@ -17,26 +17,22 @@ import javax.swing.border.LineBorder;
 
 import LogisticApp.view.interfaces.IApplicationView;
 
-public class LogisticAppFrame extends JFrame implements ActionListener, IApplicationView {
+public class MenuFrame extends JFrame implements ActionListener, IApplicationView {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JButton btnCadastro;
 	private JButton btnContratacao;
 	private JLabel lblTitle;
-	
-	public void start(){
-		this.setTitle("LogisticApp");
-		this.setBounds(100, 100, 273, 299);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setLocationRelativeTo(null);
-		this.initializeElements();
-		this.setVisible(true);
-	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource().equals(this.btnCadastro)) {
-			// new CadastroFrame(this);
+		IApplicationView next = null;
+		if (e.getSource().equals(this.btnCadastro))
+			next = new CadastroFrame();
+		else if (e.getSource().equals(this.btnContratacao))
+			next = new MenuContratacaoTransporteFrame();
+		if (next != null) {
+			next.start();
 			this.dispose();
 		}
 	}
@@ -92,6 +88,15 @@ public class LogisticAppFrame extends JFrame implements ActionListener, IApplica
 		this.lblTitle.setVerticalAlignment(SwingConstants.TOP);
 		this.lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		this.lblTitle.setFont(new Font("Arial", Font.BOLD, 20));
+	}
+
+	public void start() {
+		this.setTitle("LogisticApp");
+		this.setBounds(100, 100, 273, 299);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLocationRelativeTo(null);
+		this.initializeElements();
+		this.setVisible(true);
 	}
 
 }

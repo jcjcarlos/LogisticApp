@@ -19,7 +19,12 @@ public class Localidade {
 		if (getClass() != obj.getClass())
 			return false;
 		Localidade other = (Localidade) obj;
-		if (id != other.id)
+		if(id != other.id)
+			return false;
+		if (descricao == null) {
+			if (other.descricao != null)
+				return false;
+		} else if (!descricao.equals(other.descricao))
 			return false;
 		return true;
 	}
@@ -37,6 +42,7 @@ public class Localidade {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + id;
+		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
 		return result;
 	}
 
