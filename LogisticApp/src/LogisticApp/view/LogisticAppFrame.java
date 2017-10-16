@@ -24,7 +24,7 @@ public class LogisticAppFrame extends JFrame implements ActionListener {
 	private JLabel lblTitle;
 
 	public LogisticAppFrame() {
-		this.setTitle("LogisticApp - Menu Principal");
+		this.setTitle("LogisticApp");
 		this.setBounds(100, 100, 273, 299);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
