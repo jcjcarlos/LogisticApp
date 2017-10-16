@@ -8,14 +8,18 @@ import LogisticApp.business.entities.Localidade;
 import LogisticApp.business.entities.Rota;
 import LogisticApp.business.session.interfaces.IContratacaoTransporteSession;
 import LogisticApp.data.interfaces.IRotaDAO;
+import LogisticApp.data.interfaces.ILocalidadeDAO;
 import LogisticApp.data.sql.RotaDAOSQL;
+import LogisticApp.data.sql.LocalidadeDAOSQL;
 
 public class ContratacaoTransporte implements IContratacaoTransporteSession {
 
 	private IRotaDAO rotaDAO;
+	private ILocalidadeDAO localidadeDAO;
 
 	public ContratacaoTransporte() {
 		this.rotaDAO = new RotaDAOSQL();
+		this.localidadeDAO = new LocalidadeDAOSQL();
 	}
 
 	@Override
@@ -30,8 +34,10 @@ public class ContratacaoTransporte implements IContratacaoTransporteSession {
 	}
 
 	@Override
-	public Map<Integer, String> getInfoRotasCapacitadas(Localidade origem, Localidade destino, double pesoVolume) throws Exception {
+	public Map<Integer, String> getInfoRotasCapacitadas(int idOrigem, int idDestino, double pesoVolume) throws Exception {
 		Map<Integer, String> rotasCapacitadas = new HashMap<Integer, String>();
+		Localidade origem = this.localidadeDAO.retrieveById(idOrigem);
+		Localidade destino = this.localidadeDAO.retrieveById(idDestino);
 		Collection<Rota> rotas = this.getRotasCapacitadas(origem, destino, pesoVolume);
 		for (Rota rota : rotas)
 			rotasCapacitadas.put(rota.getId(), mensagemInfoRota(rota));
