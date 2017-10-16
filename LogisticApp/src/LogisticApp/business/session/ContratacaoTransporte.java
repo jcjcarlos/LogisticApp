@@ -6,11 +6,11 @@ import java.util.Map;
 
 import LogisticApp.business.entities.Localidade;
 import LogisticApp.business.entities.Rota;
-import LogisticApp.business.session.interfaces.ILogisticaSessao;
+import LogisticApp.business.session.interfaces.IContratacaoTransporteSession;
 import LogisticApp.data.interfaces.IRotaDAO;
 import LogisticApp.data.sql.RotaDAOSQL;
 
-public class ContratacaoTransporte implements ILogisticaSessao {
+public class ContratacaoTransporte implements IContratacaoTransporteSession {
 
 	private Localidade destino;
 	private Localidade origem;
@@ -24,6 +24,7 @@ public class ContratacaoTransporte implements ILogisticaSessao {
 		this.rotaDAO = new RotaDAOSQL();
 	}
 
+	@Override
 	public void atualizarRota(int idRota) throws Exception {
 		Rota rota = this.rotaDAO.retrieveById(idRota);
 		rota.aumentarCapacidadeAlocada(this.getPesoVolume());
@@ -38,6 +39,7 @@ public class ContratacaoTransporte implements ILogisticaSessao {
 		return this.destino;
 	}
 
+	@Override
 	public Map<Integer, String> getInfoRotasCapacitadas() throws Exception {
 		Map<Integer, String> rotasCapacitadas = new HashMap<Integer, String>();
 		Collection<Rota> rotas = this.getRotasCapacitadas();
