@@ -1,5 +1,5 @@
 package LogisticApp.business.session.interfaces;
 
-public interface CadastroSessao {
+public interface ICadastroSessao {
 
 }

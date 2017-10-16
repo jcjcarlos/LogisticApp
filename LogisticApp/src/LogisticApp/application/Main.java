@@ -1,16 +1,13 @@
 package LogisticApp.application;
 
 import LogisticApp.view.LogisticAppFrame;
+import LogisticApp.view.interfaces.IApplicationView;
 
 public class Main {
-	
+
 	public static void main(String[] args) {
-		try {
-			LogisticAppFrame frame = new LogisticAppFrame();
-			frame.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		IApplicationView app = new LogisticAppFrame();
+		app.start();
 	}
 
 }

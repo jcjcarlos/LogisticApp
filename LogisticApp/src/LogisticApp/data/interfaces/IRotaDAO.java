@@ -5,7 +5,7 @@ import java.util.Collection;
 import LogisticApp.business.entities.Localidade;
 import LogisticApp.business.entities.Rota;
 
-public interface RotaDAO {
+public interface IRotaDAO {
 
 	public abstract void create(Rota rota) throws Exception;
 

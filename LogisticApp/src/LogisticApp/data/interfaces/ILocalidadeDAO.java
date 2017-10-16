@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import LogisticApp.business.entities.Localidade;
 
-public interface LocalidadeDAO {
+public interface ILocalidadeDAO {
 
 	public abstract void create(Localidade localidade) throws Exception;
 

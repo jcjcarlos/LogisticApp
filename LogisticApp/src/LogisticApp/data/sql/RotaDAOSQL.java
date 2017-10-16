@@ -11,10 +11,10 @@ import LogisticApp.business.entities.Fracional;
 import LogisticApp.business.entities.Localidade;
 import LogisticApp.business.entities.Rota;
 import LogisticApp.data.DBConnection;
-import LogisticApp.data.interfaces.RotaDAO;
+import LogisticApp.data.interfaces.IRotaDAO;
 import LogisticApp.data.queries.RotaQueries;
 
-public class RotaDAOSQL implements RotaDAO {
+public class RotaDAOSQL implements IRotaDAO {
 
 	@Override
 	public void create(Rota rota) throws Exception {

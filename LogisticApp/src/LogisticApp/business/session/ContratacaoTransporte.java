@@ -6,16 +6,16 @@ import java.util.Map;
 
 import LogisticApp.business.entities.Localidade;
 import LogisticApp.business.entities.Rota;
-import LogisticApp.business.session.interfaces.LogisticaSessao;
-import LogisticApp.data.interfaces.RotaDAO;
+import LogisticApp.business.session.interfaces.ILogisticaSessao;
+import LogisticApp.data.interfaces.IRotaDAO;
 import LogisticApp.data.sql.RotaDAOSQL;
 
-public class ContratacaoTransporte implements LogisticaSessao {
+public class ContratacaoTransporte implements ILogisticaSessao {
 
 	private Localidade destino;
 	private Localidade origem;
 	private double pesoVolume;
-	private RotaDAO rotaDAO;
+	private IRotaDAO rotaDAO;
 
 	public ContratacaoTransporte(Localidade origem, Localidade destino, double pesoVolume) {
 		this.setOrigem(origem);

@@ -8,10 +8,10 @@ import java.util.List;
 
 import LogisticApp.business.entities.Localidade;
 import LogisticApp.data.DBConnection;
-import LogisticApp.data.interfaces.LocalidadeDAO;
+import LogisticApp.data.interfaces.ILocalidadeDAO;
 import LogisticApp.data.queries.LocalidadeQueries;
 
-public class LocalidadeDAOSQL implements LocalidadeDAO {
+public class LocalidadeDAOSQL implements ILocalidadeDAO {
 
 	@Override
 	public void create(Localidade localidade) throws Exception {

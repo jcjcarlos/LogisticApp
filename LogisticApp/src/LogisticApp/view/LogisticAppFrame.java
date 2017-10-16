@@ -15,20 +15,23 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-public class LogisticAppFrame extends JFrame implements ActionListener {
+import LogisticApp.view.interfaces.IApplicationView;
+
+public class LogisticAppFrame extends JFrame implements ActionListener, IApplicationView {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JButton btnCadastro;
 	private JButton btnContratacao;
 	private JLabel lblTitle;
-
-	public LogisticAppFrame() {
+	
+	public void start(){
 		this.setTitle("LogisticApp");
 		this.setBounds(100, 100, 273, 299);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.initializeElements();
+		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {
