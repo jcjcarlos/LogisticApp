@@ -32,7 +32,7 @@ public class LogisticAppFrame extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == this.btnCadastro) {
+		if (e.getSource().equals(this.btnCadastro)) {
 			// TODO: Iniciar frame de Cadastro
 			this.dispose();
 		}
