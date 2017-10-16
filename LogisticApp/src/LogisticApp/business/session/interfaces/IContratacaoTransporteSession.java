@@ -6,6 +6,6 @@ public interface IContratacaoTransporteSession {
 	
 	public abstract void atualizarRota(int idRota, double pesoVolume) throws Exception;
 
-	public abstract Map<Integer, String> getInfoRotasCapacitadas(Localidade origem, Localidade destino, double pesoVolume) throws Exception;
+	public abstract Map<Integer, String> getInfoRotasCapacitadas(int idOrigem, int idDestino, double pesoVolume) throws Exception;
 
 }
