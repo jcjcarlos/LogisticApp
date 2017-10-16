@@ -2,9 +2,7 @@ package LogisticApp.business.session;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import LogisticApp.business.entities.Direta;
 import LogisticApp.business.entities.Fracional;
@@ -15,6 +13,8 @@ import LogisticApp.data.interfaces.ILocalidadeDAO;
 import LogisticApp.data.interfaces.IRotaDAO;
 import LogisticApp.data.sql.LocalidadeDAOSQL;
 import LogisticApp.data.sql.RotaDAOSQL;
+import LogisticApp.view.vo.LocalidadeVO;
+import LogisticApp.view.vo.RotaVO;
 
 public class CadastroRota implements ICadastroRotaSession {
 
@@ -47,19 +47,18 @@ public class CadastroRota implements ICadastroRotaSession {
 	}
 
 	@Override
-	public Map<Integer, String> recuperarRotaPorNome(String nome) throws Exception {
-		Map<Integer, String> rotas = new HashMap<Integer, String>();
+	public RotaVO recuperarRotaPorNome(String nome) throws Exception {
 		Rota rota = this.rotaDAO.retrieveByName(nome);
-		rotas.put(rota.getId(), rota.toString());
-		return rotas;
+		RotaVO rotaVO = new RotaVO(rota.getId(), rota.getNome());
+		return rotaVO;
 	}
 
 	@Override
-	public Map<Integer, String> recuperarLocalidades() throws Exception {
-		Map<Integer, String> localidades = new HashMap<Integer, String>();
+	public List<LocalidadeVO> recuperarLocalidades() throws Exception {
+		List<LocalidadeVO> localidades = new ArrayList<LocalidadeVO>();
 		Collection<Localidade> locais = this.localidadeDAO.retrieveAll();
 		for (Localidade local : locais)
-			localidades.put(local.getId(), local.getDescricao());
+			localidades.add(new LocalidadeVO(local.getId(), local.getDescricao()));
 		return localidades;
 	}
 
