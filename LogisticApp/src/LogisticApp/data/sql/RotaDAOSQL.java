@@ -13,6 +13,7 @@ import LogisticApp.business.entities.Rota;
 import LogisticApp.data.DBConnection;
 import LogisticApp.data.interfaces.IRotaDAO;
 import LogisticApp.data.queries.RotaQueries;
+import LogisticApp.exception.RotaNotFoundException;
 
 public class RotaDAOSQL implements IRotaDAO {
 
@@ -64,12 +65,7 @@ public class RotaDAOSQL implements IRotaDAO {
 		return rotas;
 	}
 
-	@Override
-	public Rota retrieveById(int id) throws Exception {
-		PreparedStatement pstm = DBConnection.getConnection()
-				.prepareStatement(RotaQueries.RETRIEVE_BY_ID.getConsulta());
-		pstm.setInt(1, id);
-		ResultSet rset = pstm.executeQuery();
+	private Rota createRota(ResultSet rset) throws Exception {
 		Rota rota = null;
 		if (rset.next()) {
 			int id_ = rset.getInt("id");
@@ -92,6 +88,30 @@ public class RotaDAOSQL implements IRotaDAO {
 	}
 
 	@Override
+	public Rota retrieveById(int id) throws Exception {
+		PreparedStatement pstm = DBConnection.getConnection()
+				.prepareStatement(RotaQueries.RETRIEVE_BY_ID.getConsulta());
+		pstm.setInt(1, id);
+		ResultSet rset = pstm.executeQuery();
+		Rota rota = this.createRota(rset);
+		if (rota == null)
+			throw new RotaNotFoundException("ID: " + id);
+		return rota;
+	}
+
+	@Override
+	public Rota retrieveByName(String name) throws Exception {
+		PreparedStatement pstm = DBConnection.getConnection()
+				.prepareStatement(RotaQueries.RETRIEVE_BY_NAME.getConsulta());
+		pstm.setString(1, name);
+		ResultSet rset = pstm.executeQuery();
+		Rota rota = this.createRota(rset);
+		if (rota == null)
+			throw new RotaNotFoundException("Nome: " + name);
+		return rota;
+	}
+
+	@Override
 	public Collection<Rota> retrieveByOriginDestiny(Localidade origem, Localidade destino) throws Exception {
 		PreparedStatement pstm = DBConnection.getConnection()
 				.prepareStatement(RotaQueries.RETRIEVE_BY_ORIGIN_DESTINY.getConsulta());
@@ -103,6 +123,9 @@ public class RotaDAOSQL implements IRotaDAO {
 			Rota rota = this.retrieveById(rset.getInt("id"));
 			rotas.add(rota);
 		}
+		if (rotas.size() == 0)
+			throw new RotaNotFoundException(
+					"Não existe rota nesse trecho: " + origem.getDescricao() + " / " + destino.getDescricao());
 		return rotas;
 	}
 

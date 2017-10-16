@@ -34,17 +34,19 @@ public class ContratacaoTransporte implements IContratacaoTransporteSession {
 	}
 
 	@Override
-	public Map<Integer, String> getInfoRotasCapacitadas(int idOrigem, int idDestino, double pesoVolume) throws Exception {
+	public Map<Integer, String> getInfoRotasCapacitadas(int idOrigem, int idDestino, double pesoVolume)
+			throws Exception {
 		Map<Integer, String> rotasCapacitadas = new HashMap<Integer, String>();
 		Localidade origem = this.localidadeDAO.retrieveById(idOrigem);
 		Localidade destino = this.localidadeDAO.retrieveById(idDestino);
 		Collection<Rota> rotas = this.getRotasCapacitadas(origem, destino, pesoVolume);
 		for (Rota rota : rotas)
-			rotasCapacitadas.put(rota.getId(), mensagemInfoRota(rota));
+			rotasCapacitadas.put(rota.getId(), mensagemInfoRota(rota, pesoVolume));
 		return rotasCapacitadas;
 	}
 
-	private Collection<Rota> getRotasCapacitadas(Localidade origem, Localidade destino, double pesoVolume) throws Exception {
+	private Collection<Rota> getRotasCapacitadas(Localidade origem, Localidade destino, double pesoVolume)
+			throws Exception {
 		Collection<Rota> rotas = this.rotaDAO.retrieveByOriginDestiny(origem, destino);
 		for (Rota rota : rotas) {
 			if (rota.getCapacidadeTransporte() < pesoVolume)
@@ -59,6 +61,15 @@ public class ContratacaoTransporte implements IContratacaoTransporteSession {
 		result += rota.getTempoEntrega() + " dias - R$ ";
 		result += String.format("%.2f", this.calcularValorPeso(rota.getCustoGrama(), pesoVolume));
 		return result;
+	}
+
+	@Override
+	public Map<Integer, String> recuperarLocalidades() throws Exception {
+		Map<Integer, String> localidades = new HashMap<Integer, String>();
+		Collection<Localidade> locais = this.localidadeDAO.retrieveAll();
+		for (Localidade local : locais)
+			localidades.put(local.getId(), local.getDescricao());
+		return localidades;
 	}
 
 }

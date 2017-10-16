@@ -13,6 +13,8 @@ public interface IRotaDAO {
 
 	public abstract Rota retrieveById(int id) throws Exception;
 
+	public abstract Rota retrieveByName(String name) throws Exception;
+
 	public abstract Collection<Rota> retrieveByOriginDestiny(Localidade origem, Localidade destino) throws Exception;
 
 	public abstract void update(Rota rota) throws Exception;

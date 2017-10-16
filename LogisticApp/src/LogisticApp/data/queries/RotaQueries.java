@@ -31,6 +31,18 @@ public enum RotaQueries {
 				  + "tipo "
 				  + "FROM ROTA WHERE id = ?"),
 	
+	RETRIEVE_BY_NAME ("SELECT id, "
+			+ "nome, "
+			+ "idLocalidadeOrigem, "
+			+ "idLocalidadeDestino, "
+			+ "capacidadeTotal, "
+			+ "capacidadeAlocada,"
+			+ " custoGrama, "
+			+ "tempoEntrega, "
+			+ "tipo "
+			+ "FROM ROTA "
+			+ "WHERE nome = ?"),
+	
 	RETRIEVE_BY_ORIGIN_DESTINY ("SELECT id "
 			                  + "FROM ROTA "
 			                  + "WHERE idLocalidadeOrigem = ? "
@@ -59,14 +71,14 @@ public enum RotaQueries {
 			     + "ordem = ?"
 			     + "WHERE idRotaFracionada = ?"
 			     + "AND ordem = ?");
-	
+
 	private String consulta;
-	
-	private RotaQueries(String consulta){
+
+	private RotaQueries(String consulta) {
 		this.consulta = consulta;
 	}
-	
-	public String getConsulta(){
+
+	public String getConsulta() {
 		return this.consulta;
 	}
 }

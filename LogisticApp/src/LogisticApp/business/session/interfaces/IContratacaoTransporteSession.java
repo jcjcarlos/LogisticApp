@@ -8,4 +8,6 @@ public interface IContratacaoTransporteSession {
 
 	public abstract Map<Integer, String> getInfoRotasCapacitadas(int idOrigem, int idDestino, double pesoVolume) throws Exception;
 
+	public abstract Map<Integer, String> recuperarLocalidades() throws Exception;
+
 }

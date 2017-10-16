@@ -2,6 +2,7 @@ package LogisticApp.exception;
 
 public class RotaNotFoundException extends Exception {
 
+	private static final long serialVersionUID = 1L;
 	private String message;
 	
 	public RotaNotFoundException(Exception e){

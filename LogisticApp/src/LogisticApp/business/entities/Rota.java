@@ -21,7 +21,7 @@ public abstract class Rota {
 		if (getClass() != obj.getClass())
 			return false;
 		Rota other = (Rota) obj;
-		if(id != other.id)
+		if (id != other.id)
 			return false;
 		if (nome == null) {
 			if (other.nome != null)
@@ -64,6 +64,11 @@ public abstract class Rota {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	@Override
+	public String toString() {
+		return this.getNome() + " - " + this.getOrigem().getDescricao() + " - " + this.getDestino().getDescricao();
 	}
 
 }

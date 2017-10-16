@@ -90,6 +90,7 @@ public class MenuFrame extends JFrame implements ActionListener, IApplicationVie
 		this.lblTitle.setFont(new Font("Arial", Font.BOLD, 20));
 	}
 
+	@Override
 	public void start() {
 		this.setTitle("LogisticApp");
 		this.setBounds(100, 100, 273, 299);
