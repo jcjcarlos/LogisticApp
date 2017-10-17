@@ -1,4 +1,4 @@
-package LogisticApp.view;
+package LogisticApp.view.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -33,7 +33,7 @@ public class MenuFrame extends JFrame implements ActionListener, IApplicationVie
 		else if (e.getSource().equals(this.btnContratacao))
 			next = new MenuContratacaoTransporteFrame();
 		if (next != null) {
-			next.show();
+			next.initialize();
 			this.dispose();
 		}
 	}
@@ -93,11 +93,11 @@ public class MenuFrame extends JFrame implements ActionListener, IApplicationVie
 
 	@Override
 	public void start() {
-		this.show();
+		this.initialize();
 	}
 	
 	@Override
-	public void show(){
+	public void initialize(){
 		this.setTitle("LogisticApp");
 		this.setBounds(100, 100, 273, 299);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

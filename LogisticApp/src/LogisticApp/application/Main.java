@@ -1,6 +1,6 @@
 package LogisticApp.application;
 
-import LogisticApp.view.MenuFrame;
+import LogisticApp.view.gui.MenuFrame;
 import LogisticApp.view.interfaces.IApplicationView;
 
 public class Main {
