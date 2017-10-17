@@ -9,8 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -22,8 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
-
-import org.postgresql.util.PSQLException;
 
 import LogisticApp.business.session.CadastroLocalidade;
 import LogisticApp.business.session.interfaces.ICadastroLocalidadeSession;
@@ -65,16 +61,6 @@ public class LocalidadeFrame extends JFrame implements ILogisticFrame, ActionLis
 			}
 			catch(CadastroException ex){
 				JOptionPane.showMessageDialog(messageFrame, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-			}
-			catch(SQLException ex){
-				if(ex.getSQLState().startsWith("23"))
-					JOptionPane.showMessageDialog(messageFrame, "O ID já existe na base de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
-				else
-					JOptionPane.showMessageDialog(messageFrame, "Erro na base de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
-			}
-			catch(Exception ex){
-				ex.printStackTrace();
-				JOptionPane.showMessageDialog(messageFrame, "Erro no cadastro de Localidade.", "Erro", JOptionPane.ERROR_MESSAGE);
 			}
 			finally{
 				messageFrame.dispose();
