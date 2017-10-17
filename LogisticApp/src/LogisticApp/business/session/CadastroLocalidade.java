@@ -2,8 +2,6 @@ package LogisticApp.business.session;
 
 import java.sql.SQLException;
 
-import javax.swing.JOptionPane;
-
 import LogisticApp.business.entities.Localidade;
 import LogisticApp.business.session.interfaces.ICadastroLocalidadeSession;
 import LogisticApp.data.interfaces.ILocalidadeDAO;
