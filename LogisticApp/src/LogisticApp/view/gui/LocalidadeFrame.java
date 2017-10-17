@@ -9,17 +9,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
+import org.postgresql.util.PSQLException;
+
+import LogisticApp.business.session.CadastroLocalidade;
+import LogisticApp.business.session.interfaces.ICadastroLocalidadeSession;
+import LogisticApp.exception.CadastroException;
 import LogisticApp.view.interfaces.ILogisticFrame;
 
 public class LocalidadeFrame extends JFrame implements ILogisticFrame, ActionListener {
@@ -40,7 +48,37 @@ public class LocalidadeFrame extends JFrame implements ILogisticFrame, ActionLis
 	public void actionPerformed(ActionEvent e) {
 		ILogisticFrame next = null;
 		if (e.getSource().equals(this.btnFeito)){
-			// TODO: rotina de salvar os dados e invocar um alerta
+			JFrame messageFrame = new JFrame();
+			messageFrame.setSize(400, 200);
+			try{
+				int id = this.txtId.getText().isEmpty() ? 0 : Integer.parseInt(this.txtId.getText());
+				String nome = this.txtNome.getText();
+				if(id == 0)
+					JOptionPane.showMessageDialog(messageFrame, "Por favor informe um ID para a Localidade.", "Erro", JOptionPane.INFORMATION_MESSAGE);
+				else if(nome.isEmpty())
+					JOptionPane.showMessageDialog(messageFrame, "Por favor informe um nome para a Localidade.", "Erro", JOptionPane.INFORMATION_MESSAGE);
+				else{
+					ICadastroLocalidadeSession cadastroLocalidade = new CadastroLocalidade();
+					cadastroLocalidade.createLocalidade(id, nome);
+					JOptionPane.showMessageDialog(messageFrame, "Localidade salva com sucesso.", "Sucesso", JOptionPane.PLAIN_MESSAGE);
+				}
+			}
+			catch(CadastroException ex){
+				JOptionPane.showMessageDialog(messageFrame, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+			}
+			catch(SQLException ex){
+				if(ex.getSQLState().startsWith("23"))
+					JOptionPane.showMessageDialog(messageFrame, "O ID já existe na base de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
+				else
+					JOptionPane.showMessageDialog(messageFrame, "Erro na base de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
+			}
+			catch(Exception ex){
+				ex.printStackTrace();
+				JOptionPane.showMessageDialog(messageFrame, "Erro no cadastro de Localidade.", "Erro", JOptionPane.ERROR_MESSAGE);
+			}
+			finally{
+				messageFrame.dispose();
+			}
 		}
 		else if (e.getSource().equals(this.btnVoltar))
 			next = new CadastroFrame();
@@ -251,9 +289,9 @@ public class LocalidadeFrame extends JFrame implements ILogisticFrame, ActionLis
 		this.txtId.addKeyListener(new KeyAdapter(){
 			@Override
 			public void keyTyped(KeyEvent e) {
-				String keys = "0123456789.";
+				String keys = "0123456789";
 				char number = e.getKeyChar();
-				if(!keys.contains(number + ""))
+				if(!keys.contains(number + "") || txtId.getText().length() == 10)
 					e.consume();
 			}
 		});

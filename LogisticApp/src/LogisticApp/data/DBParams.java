@@ -135,7 +135,7 @@ public class DBParams {
 	}
 
 	private static BufferedReader openReader() throws IOException {
-		return new BufferedReader(new FileReader("dbconfigs.txt"));
+		return new BufferedReader(new FileReader(System.getProperty("user.dir") + "/src/LogisticApp/data/dbconfigs.txt"));
 	}
 
 	private DBParams(){ }
