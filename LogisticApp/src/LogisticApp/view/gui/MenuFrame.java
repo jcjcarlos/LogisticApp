@@ -21,9 +21,9 @@ import LogisticApp.view.interfaces.ILogisticFrame;
 public class MenuFrame extends JFrame implements ActionListener, IApplicationView, ILogisticFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
 	private JButton btnCadastro;
 	private JButton btnContratacao;
+	private JPanel contentPane;
 	private JLabel lblTitle;
 
 	public void actionPerformed(ActionEvent e) {
@@ -36,6 +36,16 @@ public class MenuFrame extends JFrame implements ActionListener, IApplicationVie
 			next.initialize();
 			this.dispose();
 		}
+	}
+
+	@Override
+	public void initialize(){
+		this.setTitle("LogisticApp");
+		this.setBounds(100, 100, 273, 299);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLocationRelativeTo(null);
+		this.initializeElements();
+		this.setVisible(true);
 	}
 
 	private void initializeButtons() {
@@ -90,20 +100,10 @@ public class MenuFrame extends JFrame implements ActionListener, IApplicationVie
 		this.lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		this.lblTitle.setFont(new Font("Arial", Font.BOLD, 20));
 	}
-
+	
 	@Override
 	public void start() {
 		this.initialize();
-	}
-	
-	@Override
-	public void initialize(){
-		this.setTitle("LogisticApp");
-		this.setBounds(100, 100, 273, 299);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setLocationRelativeTo(null);
-		this.initializeElements();
-		this.setVisible(true);
 	}
 
 }
