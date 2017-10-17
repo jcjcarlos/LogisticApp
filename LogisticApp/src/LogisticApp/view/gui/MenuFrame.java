@@ -98,7 +98,7 @@ public class MenuFrame extends JFrame implements ActionListener, IApplicationVie
 		this.lblTitle = new JLabel("LogisticApp");
 		this.lblTitle.setVerticalAlignment(SwingConstants.TOP);
 		this.lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		this.lblTitle.setFont(new Font("Arial", Font.BOLD, 20));
+		this.lblTitle.setFont(new Font("Dialog", Font.BOLD, 20));
 	}
 	
 	@Override
