@@ -1,6 +1,6 @@
 package LogisticApp.business.entities;
 
-public abstract class Rota {
+public abstract class Rota implements Comparable<Rota> {
 
 	protected int id;
 	protected String nome;
@@ -15,6 +15,11 @@ public abstract class Rota {
 	}
 
 	public abstract void aumentarCapacidadeAlocada(double volume);
+	
+	@Override
+	public int compareTo(Rota o){
+		return this.getNome().compareTo(o.getNome());
+	}
 
 	@Override
 	public boolean equals(Object obj) {

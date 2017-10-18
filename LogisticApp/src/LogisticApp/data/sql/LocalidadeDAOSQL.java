@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import LogisticApp.business.entities.Localidade;
@@ -46,6 +47,7 @@ public class LocalidadeDAOSQL implements ILocalidadeDAO {
 			Localidade localidade = new Localidade(rset.getInt("id"), rset.getString("descricao"));
 			localidades.add(localidade);
 		}
+		Collections.sort(localidades);
 		return localidades;
 	}
 

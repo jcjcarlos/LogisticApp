@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import LogisticApp.business.entities.Direta;
@@ -70,6 +71,7 @@ public class RotaDAOSQL implements IRotaDAO {
 			Rota rota = this.retrieveById(rset.getInt("id"));
 			rotas.add(rota);
 		}
+		Collections.sort(rotas);
 		return rotas;
 	}
 
@@ -134,6 +136,7 @@ public class RotaDAOSQL implements IRotaDAO {
 		if (rotas.size() == 0)
 			throw new RotaNotFoundException(
 					"Não existe rota nesse trecho: " + origem.getDescricao() + " / " + destino.getDescricao());
+		Collections.sort(rotas);
 		return rotas;
 	}
 

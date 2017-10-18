@@ -1,6 +1,6 @@
 package LogisticApp.business.entities;
 
-public class Localidade {
+public class Localidade implements Comparable<Localidade>{
 
 	private String descricao;
 	private int id;
@@ -56,6 +56,11 @@ public class Localidade {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	@Override
+	public int compareTo(Localidade o) {
+		return this.getDescricao().compareTo(o.getDescricao());
 	}
 
 }
