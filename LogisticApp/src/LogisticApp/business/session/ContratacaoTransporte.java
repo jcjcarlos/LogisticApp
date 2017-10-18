@@ -11,6 +11,7 @@ import LogisticApp.data.interfaces.ILocalidadeDAO;
 import LogisticApp.data.interfaces.IRotaDAO;
 import LogisticApp.data.sql.LocalidadeDAOSQL;
 import LogisticApp.data.sql.RotaDAOSQL;
+import LogisticApp.exception.LogisticException;
 import LogisticApp.view.vo.LocalidadeVO;
 import LogisticApp.view.vo.RotaCapacitadaVO;
 import LogisticApp.view.vo.RotaVO;
@@ -43,6 +44,10 @@ public class ContratacaoTransporte implements IContratacaoTransporteSession {
 		Localidade origem = this.localidadeDAO.retrieveById(idOrigem);
 		Localidade destino = this.localidadeDAO.retrieveById(idDestino);
 		Collection<Rota> rotas = this.getRotasCapacitadas(origem, destino, pesoVolume);
+		
+		if(rotas.isEmpty())
+			throw new LogisticException("Não foi possível encontrar rotas nesse trecho com capacidade para o peso solicitado.");
+		
 		for (Rota rota : rotas)
 			rotasCapacitadas.add(new RotaCapacitadaVO(rota.getId(), rota.getNome(), pesoVolume,
 					this.calcularValorPeso(rota.getCustoGrama(), pesoVolume)));
@@ -52,11 +57,16 @@ public class ContratacaoTransporte implements IContratacaoTransporteSession {
 	private Collection<Rota> getRotasCapacitadas(Localidade origem, Localidade destino, double pesoVolume)
 			throws Exception {
 		Collection<Rota> rotas = this.rotaDAO.retrieveByOriginDestiny(origem, destino);
+		
+		if(rotas.isEmpty())
+			throw new LogisticException("Não foi possível encontrar rotas com essas localidades como origem e destino.");
+		
+		List<Rota> rotasCapacitadas = new ArrayList<Rota>();
 		for (Rota rota : rotas) {
-			if (rota.getCapacidadeTransporte() < pesoVolume)
-				rotas.remove(rota);
+			if (rota.getCapacidadeTransporte() >= pesoVolume)
+				rotasCapacitadas.add(rota);
 		}
-		return rotas;
+		return rotasCapacitadas;
 	}
 
 	@Override

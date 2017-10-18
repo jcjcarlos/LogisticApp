@@ -48,28 +48,28 @@ public enum RotaQueries {
 			                  + "WHERE idLocalidadeOrigem = ? "
 			                  + "AND idLocalidadeDestino = ?"),
 	
-	RETRIEVE_TRECHOS_BY_ID ("SELECT idRotaTrecho"
+	RETRIEVE_TRECHOS_BY_ID ("SELECT idRotaTrecho "
 					+ "FROM TRECHO "
-					+ "WHERE idRotaFracionada = ?"
+					+ "WHERE idRotaFracionada = ? "
 					+ "ORDER BY ordem"),
 	
 	UPDATE_ROTA ("UPDATE ROTA "
 			   + "SET id = ?, "
 			   + "nome = ?, "
 			   + "idLocalidadeOrigem = ?, "
-			   + "idLocalidadeDestino = ?,"
-			   + "capacidadeTotal = ?,"
-			   + "capacidadeAlocada = ?,"
-			   + "custoGrama = ?,"
-			   + "tempoEntrega = ?,"
-			   + "tipo = ?"
+			   + "idLocalidadeDestino = ?, "
+			   + "capacidadeTotal = ?, "
+			   + "capacidadeAlocada = ?, "
+			   + "custoGrama = ?, "
+			   + "tempoEntrega = ?, "
+			   + "tipo = ? "
 			   + "WHERE id = ?"),
 	
-	UPDATE_TRECHO ("UPDATE TRECHO"
-			     + "SET idRotaFracionada = ?,"
-			     + "idRotaTrecho = ?,"
-			     + "ordem = ?"
-			     + "WHERE idRotaFracionada = ?"
+	UPDATE_TRECHO ("UPDATE TRECHO "
+			     + "SET idRotaFracionada = ?, "
+			     + "idRotaTrecho = ?, "
+			     + "ordem = ? "
+			     + "WHERE idRotaFracionada = ? "
 			     + "AND ordem = ?");
 
 	private String consulta;

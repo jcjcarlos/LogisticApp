@@ -17,5 +17,9 @@ public class LocalidadeVO {
 	public String getDescricao() {
 		return descricao;
 	}
+	
+	public String toString(){
+		return this.descricao;
+	}
 
 }

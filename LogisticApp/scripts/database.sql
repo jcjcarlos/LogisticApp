@@ -37,19 +37,18 @@ CREATE TABLE TRECHO (
 );
 
 INSERT INTO LOCALIDADE(id, descricao) VALUES
-(1, 'Patópolis'),
-(2, 'Gansópolis'),
-(3, 'Spoornevil'),
-(4, 'Ratolandia');
+(NEXTVAL('surrogate_localidade'), 'Patópolis'),
+(NEXTVAL('surrogate_localidade'), 'Gansópolis'),
+(NEXTVAL('surrogate_localidade'), 'Spoornevil'),
+(NEXTVAL('surrogate_localidade'), 'Ratolandia');
 
 INSERT INTO ROTA(id, nome, idLocalidadeOrigem, idLocalidadeDestino, capacidadeTotal, capacidadeAlocada, custoGrama, tempoEntrega, tipo) VALUES
-(1, 'EW001', 1, 2, 100, 0, 0.18, 3, 'D'),
-(2, 'EW101', 2, 3, 200, 0, 0.33, 4, 'D'),
-(3, 'WS205', 3, 4, 300, 0, 0.5, 2, 'D'),
-(4, 'ES203', 1, 4, 100, 0, 1.01, 11, 'F');
+(NEXTVAL('surrogate_rota'), 'EW001', 1, 2, 100, 0, 0.18, 3, 'D'),
+(NEXTVAL('surrogate_rota'), 'EW101', 2, 3, 200, 0, 0.33, 4, 'D'),
+(NEXTVAL('surrogate_rota'), 'WS205', 3, 4, 300, 0, 0.5, 2, 'D'),
+(NEXTVAL('surrogate_rota'), 'ES203', 1, 4, 100, 0, 1.01, 11, 'F');
 
 INSERT INTO TRECHO(idRotaFracionada, idRotaTrecho, ordem) VALUES
 (4, 1, 0),
 (4, 2, 1),
 (4, 3, 2);
-	 
