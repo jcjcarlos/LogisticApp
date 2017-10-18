@@ -12,6 +12,7 @@ import LogisticApp.business.entities.Localidade;
 import LogisticApp.business.entities.Rota;
 import LogisticApp.data.DBConnection;
 import LogisticApp.data.interfaces.IRotaDAO;
+import LogisticApp.data.interfaces.ISequenceSurrogate;
 import LogisticApp.data.queries.RotaQueries;
 import LogisticApp.exception.RotaNotFoundException;
 
@@ -20,7 +21,9 @@ public class RotaDAOSQL implements IRotaDAO {
 	@Override
 	public void create(Rota rota) throws Exception {
 		PreparedStatement pstm = DBConnection.getConnection().prepareStatement(RotaQueries.INSERT_ROTA.getConsulta());
-		pstm.setInt(1, rota.getId());
+		ISequenceSurrogate sequenceSurrogate = new SequenceSurrogateSQL();
+		int id = sequenceSurrogate.generateKey("surrogate_rota");
+		pstm.setInt(1, id);
 		pstm.setString(2, rota.getNome());
 		pstm.setObject(3, (rota.getOrigem() == null) ? null : rota.getOrigem().getId());
 		pstm.setObject(4, (rota.getDestino() == null) ? null : rota.getDestino().getId());
@@ -37,7 +40,12 @@ public class RotaDAOSQL implements IRotaDAO {
 			pstm.setString(9, "F");
 			this.createTrechos((Fracional) rota);
 		}
-		pstm.executeUpdate();
+		try {
+			pstm.executeUpdate();
+		} catch (Exception ex) {
+			sequenceSurrogate.restoreKey("surrogate_rota", id);
+			throw ex;
+		}
 	}
 
 	private void createTrechos(Fracional rota) throws Exception {

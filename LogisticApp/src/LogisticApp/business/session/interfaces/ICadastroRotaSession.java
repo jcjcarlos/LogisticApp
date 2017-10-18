@@ -7,7 +7,7 @@ import LogisticApp.view.vo.RotaVO;
 
 public interface ICadastroRotaSession {
 
-	public abstract void createRota(int id, String nome, char tipo, int idOrigem, int idDestino, double capacidadeTotal,
+	public abstract void createRota(String nome, char tipo, int idOrigem, int idDestino, double capacidadeTotal,
 			double custoGrama, int tempoEntrega, List<Integer> trechos) throws Exception;
 
 	public abstract RotaVO recuperarRotaPorNome(String nome) throws Exception;

@@ -9,6 +9,7 @@ import java.util.List;
 import LogisticApp.business.entities.Localidade;
 import LogisticApp.data.DBConnection;
 import LogisticApp.data.interfaces.ILocalidadeDAO;
+import LogisticApp.data.interfaces.ISequenceSurrogate;
 import LogisticApp.data.queries.LocalidadeQueries;
 
 public class LocalidadeDAOSQL implements ILocalidadeDAO {
@@ -17,9 +18,17 @@ public class LocalidadeDAOSQL implements ILocalidadeDAO {
 	public void create(Localidade localidade) throws Exception {
 		PreparedStatement pstm = DBConnection.getConnection()
 				.prepareStatement(LocalidadeQueries.CREATE_LOCALIDADE.getConsulta());
-		pstm.setInt(1, localidade.getId());
+		ISequenceSurrogate sequenceSurrogate = new SequenceSurrogateSQL();
+		int id = sequenceSurrogate.generateKey("surrogate_localidade");
+		pstm.setInt(1, id);
 		pstm.setString(2, localidade.getDescricao());
-		pstm.executeUpdate();
+		try{
+			pstm.executeUpdate();
+		}
+		catch(Exception ex){
+			sequenceSurrogate.restoreKey("surrogate_localidade", id);
+			throw ex;
+		}
 	}
 
 	@Override

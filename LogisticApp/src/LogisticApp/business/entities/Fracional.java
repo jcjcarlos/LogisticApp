@@ -7,6 +7,10 @@ import java.util.List;
 public class Fracional extends Rota {
 
 	private List<Rota> trechos;
+	
+	public Fracional(String nome){
+		this(0, nome);
+	}
 
 	public Fracional(int id, String nome) {
 		super(id, nome);

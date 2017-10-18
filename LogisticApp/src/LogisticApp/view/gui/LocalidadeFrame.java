@@ -7,12 +7,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -32,28 +29,19 @@ public class LocalidadeFrame extends JFrame implements ILogisticFrame, ActionLis
 	private JButton btnFeito;
 	private JButton btnVoltar;
 	private JPanel contentPane;
-	private JLabel lblId;
 	private JLabel lblLocalidade;
 	private JLabel lblNome;
 	private JPanel panelFirst;
 	private JPanel panelSecond;
-	private JTextField txtId;
 	private JTextField txtNome;
 
 	private void saveLocalidade() throws CadastroException {
-		try {
-			int id = this.txtId.getText().isEmpty() ? 0 : Integer.parseInt(this.txtId.getText());
-			String nome = this.txtNome.getText();
-			if (id == 0)
-				throw new CadastroException("Por favor informe um ID para a Localidade.");
-			else if (nome.isEmpty())
-				throw new CadastroException("Por favor informe um nome para a Localidade.");
-			else {
-				ICadastroLocalidadeSession cadastroLocalidade = new CadastroLocalidade();
-				cadastroLocalidade.createLocalidade(id, nome);
-			}
-		} catch (CadastroException ex) {
-			throw ex;
+		String nome = this.txtNome.getText();
+		if (nome.isEmpty())
+			throw new CadastroException("Por favor informe um nome para a Localidade.");
+		else {
+			ICadastroLocalidadeSession cadastroLocalidade = new CadastroLocalidade();
+			cadastroLocalidade.createLocalidade(nome);
 		}
 		JOptionPane.showMessageDialog(null, "Localidade salva com sucesso.", "Sucesso", JOptionPane.PLAIN_MESSAGE);
 	}
@@ -213,14 +201,6 @@ public class LocalidadeFrame extends JFrame implements ILogisticFrame, ActionLis
 		gbc_lblLocalidade.gridy = 1;
 		panelFirst.add(this.lblLocalidade, gbc_lblLocalidade);
 
-		this.lblId = new JLabel("ID:");
-		GridBagConstraints gbc_lblId = new GridBagConstraints();
-		gbc_lblId.anchor = GridBagConstraints.EAST;
-		gbc_lblId.insets = new Insets(0, 0, 5, 5);
-		gbc_lblId.gridx = 2;
-		gbc_lblId.gridy = 2;
-		panelSecond.add(this.lblId, gbc_lblId);
-
 		this.lblNome = new JLabel("Nome:");
 		GridBagConstraints gbc_lblNome = new GridBagConstraints();
 		gbc_lblNome.insets = new Insets(0, 0, 0, 5);
@@ -270,28 +250,6 @@ public class LocalidadeFrame extends JFrame implements ILogisticFrame, ActionLis
 	}
 
 	private void initializeTextFields() {
-
-		this.txtId = new JFormattedTextField();
-		this.txtId.setColumns(10);
-
-		this.txtId.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				String keys = "0123456789";
-				char number = e.getKeyChar();
-				if (!keys.contains(number + "") || txtId.getText().length() == 10)
-					e.consume();
-			}
-		});
-
-		GridBagConstraints gbc_txtId = new GridBagConstraints();
-		gbc_txtId.gridwidth = 4;
-		gbc_txtId.insets = new Insets(0, 0, 5, 5);
-		gbc_txtId.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtId.gridx = 4;
-		gbc_txtId.gridy = 2;
-		this.panelSecond.add(this.txtId, gbc_txtId);
-
 		this.txtNome = new JTextField();
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.gridwidth = 4;

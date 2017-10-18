@@ -4,6 +4,10 @@ public class Localidade {
 
 	private String descricao;
 	private int id;
+	
+	public Localidade(String descricao){
+		this(0, descricao);
+	}
 
 	public Localidade(int id, String descricao) {
 		this.setId(id);

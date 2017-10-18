@@ -27,11 +27,11 @@ public class CadastroRota implements ICadastroRotaSession {
 	}
 
 	@Override
-	public void createRota(int id, String nome, char tipo, int idOrigem, int idDestino, double capacidadeTotal,
+	public void createRota(String nome, char tipo, int idOrigem, int idDestino, double capacidadeTotal,
 			double custoGrama, int tempoEntrega, List<Integer> trechos) throws Exception {
 		Rota rota = null;
 		if (tipo == 'D') {
-			rota = new Direta(id, nome, this.localidadeDAO.retrieveById(idOrigem),
+			rota = new Direta(nome, this.localidadeDAO.retrieveById(idOrigem),
 					this.localidadeDAO.retrieveById(idDestino), capacidadeTotal, 0, custoGrama, tempoEntrega);
 		} else if (tipo == 'F') {
 			Collection<Rota> trechosFracional = new ArrayList<Rota>();
@@ -39,7 +39,7 @@ public class CadastroRota implements ICadastroRotaSession {
 				Rota trecho = this.rotaDAO.retrieveById(trechoId);
 				trechosFracional.add(trecho);
 			}
-			Fracional fracional = new Fracional(id, nome);
+			Fracional fracional = new Fracional(nome);
 			fracional.addTrecho(trechosFracional);
 			rota = fracional;
 		}

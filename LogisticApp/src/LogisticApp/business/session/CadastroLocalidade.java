@@ -17,13 +17,17 @@ public class CadastroLocalidade implements ICadastroLocalidadeSession {
 	}
 
 	@Override
-	public void createLocalidade(int id, String nome) throws CadastroException {
-		Localidade localidade = new Localidade(id, nome);
+	public void createLocalidade(String nome) throws CadastroException {
+		Localidade localidade = new Localidade(nome);
 		try {
 			this.localidadeDAO.create(localidade);
-		} catch (SQLException ex) {
+		} 
+		catch(CadastroException ex){
+			throw ex;
+		}
+		catch (SQLException ex) {
 			if (ex.getSQLState().startsWith("23"))
-				throw new CadastroException("O ID já existe na base de dados.");
+				throw new CadastroException("Uma localidade com esse nome já existe nos nossos registros.");
 			else
 				throw new CadastroException("Erro na base de dados.");
 		} catch (Exception ex) {

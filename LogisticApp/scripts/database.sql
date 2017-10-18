@@ -1,14 +1,18 @@
-﻿-- TABELA DE LOCALIDADES
+﻿CREATE SEQUENCE surrogate_localidade START 1;
+
+CREATE SEQUENCE surrogate_rota START 1;
+
+-- TABELA DE LOCALIDADES
 CREATE TABLE LOCALIDADE (
 	id INT NOT NULL,
-	descricao VARCHAR(30) NOT NULL,
+	descricao VARCHAR(30) NOT NULL UNIQUE,
 	CONSTRAINT PK_LOCALIDADE PRIMARY KEY(id)
 );
 
 -- TABELA DE ROTAS
 CREATE TABLE ROTA (
 	id INT NOT NULL,
-	nome VARCHAR(30) NOT NULL,
+	nome VARCHAR(30) NOT NULL UNIQUE,
 	idLocalidadeOrigem INT NOT NULL,
 	idLocalidadeDestino INT NOT NULL,
 	capacidadeTotal FLOAT NULL,
@@ -38,7 +42,7 @@ INSERT INTO LOCALIDADE(id, descricao) VALUES
 (3, 'Spoornevil'),
 (4, 'Ratolandia');
 
-INSERT INTO ROTA(id, nome, idLocalidadeOrigem, idLocalidadeDestino, capacidadeTransporte, capacidadeAlocada, custoGrama, tempoEntrega, tipo) VALUES
+INSERT INTO ROTA(id, nome, idLocalidadeOrigem, idLocalidadeDestino, capacidadeTotal, capacidadeAlocada, custoGrama, tempoEntrega, tipo) VALUES
 (1, 'EW001', 1, 2, 100, 0, 0.18, 3, 'D'),
 (2, 'EW101', 2, 3, 200, 0, 0.33, 4, 'D'),
 (3, 'WS205', 3, 4, 300, 0, 0.5, 2, 'D'),

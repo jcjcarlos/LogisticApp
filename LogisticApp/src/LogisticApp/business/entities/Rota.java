@@ -4,6 +4,10 @@ public abstract class Rota {
 
 	protected int id;
 	protected String nome;
+	
+	public Rota(String nome){
+		this(0, nome);
+	}
 
 	public Rota(int id, String nome) {
 		this.setId(id);

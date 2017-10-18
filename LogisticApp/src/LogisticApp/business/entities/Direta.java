@@ -8,6 +8,11 @@ public class Direta extends Rota {
 	private Localidade destino;
 	private Localidade origem;
 	private int tempoEntrega;
+	
+	public Direta(String nome, Localidade origem, Localidade destino, double capacidadeTotal,
+			double capacidadeAlocada, double custoGrama, int tempoEntrega){
+		this(0, nome, origem, destino, capacidadeTotal, capacidadeAlocada, custoGrama, tempoEntrega);
+	}
 
 	public Direta(int id, String nome, Localidade origem, Localidade destino, double capacidadeTotal,
 			double capacidadeAlocada, double custoGrama, int tempoEntrega) {

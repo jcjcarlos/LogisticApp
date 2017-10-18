@@ -4,6 +4,6 @@ import LogisticApp.exception.CadastroException;
 
 public interface ICadastroLocalidadeSession {
 	
-	public abstract void createLocalidade(int id, String nome) throws CadastroException;
+	public abstract void createLocalidade(String nome) throws CadastroException;
 
 }
