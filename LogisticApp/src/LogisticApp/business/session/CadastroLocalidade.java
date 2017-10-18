@@ -1,7 +1,5 @@
 package LogisticApp.business.session;
 
-import java.sql.SQLException;
-
 import LogisticApp.business.entities.Localidade;
 import LogisticApp.business.session.interfaces.ICadastroLocalidadeSession;
 import LogisticApp.data.interfaces.ILocalidadeDAO;
@@ -21,15 +19,8 @@ public class CadastroLocalidade implements ICadastroLocalidadeSession {
 		Localidade localidade = new Localidade(nome);
 		try {
 			this.localidadeDAO.create(localidade);
-		} 
-		catch(CadastroException ex){
+		} catch (CadastroException ex) {
 			throw ex;
-		}
-		catch (SQLException ex) {
-			if (ex.getSQLState().startsWith("23"))
-				throw new CadastroException("Uma localidade com esse nome já existe nos nossos registros.");
-			else
-				throw new CadastroException("Erro na base de dados.");
 		} catch (Exception ex) {
 			throw new CadastroException("Erro: Não foi possível realizar o cadastro da localidade " + nome + ".");
 		}

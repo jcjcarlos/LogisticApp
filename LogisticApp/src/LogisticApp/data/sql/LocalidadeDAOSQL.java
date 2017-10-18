@@ -2,6 +2,7 @@ package LogisticApp.data.sql;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -11,6 +12,7 @@ import LogisticApp.data.DBConnection;
 import LogisticApp.data.interfaces.ILocalidadeDAO;
 import LogisticApp.data.interfaces.ISequenceSurrogate;
 import LogisticApp.data.queries.LocalidadeQueries;
+import LogisticApp.exception.CadastroException;
 
 public class LocalidadeDAOSQL implements ILocalidadeDAO {
 
@@ -25,9 +27,12 @@ public class LocalidadeDAOSQL implements ILocalidadeDAO {
 		try{
 			pstm.executeUpdate();
 		}
-		catch(Exception ex){
+		catch (SQLException ex) {
 			sequenceSurrogate.restoreKey("surrogate_localidade", id);
-			throw ex;
+			if (ex.getSQLState().startsWith("23"))
+				throw new CadastroException("Uma localidade com esse nome já existe nos nossos registros.");
+			else
+				throw new CadastroException("Erro na base de dados.");
 		}
 	}
 
