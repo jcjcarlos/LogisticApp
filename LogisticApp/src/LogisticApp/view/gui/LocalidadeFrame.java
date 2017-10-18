@@ -21,7 +21,7 @@ import javax.swing.border.EmptyBorder;
 import LogisticApp.business.session.CadastroLocalidade;
 import LogisticApp.business.session.interfaces.ICadastroLocalidadeSession;
 import LogisticApp.exception.CadastroException;
-import LogisticApp.view.interfaces.ILogisticFrame;
+import LogisticApp.view.gui.interfaces.ILogisticFrame;
 
 public class LocalidadeFrame extends JFrame implements ILogisticFrame, ActionListener {
 

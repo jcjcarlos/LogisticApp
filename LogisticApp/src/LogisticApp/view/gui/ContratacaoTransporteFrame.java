@@ -1,6 +1,6 @@
 package LogisticApp.view.gui;
 
-import LogisticApp.view.interfaces.ILogisticFrame;
+import LogisticApp.view.gui.interfaces.ILogisticFrame;
 
 public class ContratacaoTransporteFrame implements ILogisticFrame {
 

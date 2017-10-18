@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
-import LogisticApp.view.interfaces.ILogisticFrame;
+import LogisticApp.view.gui.interfaces.ILogisticFrame;
 
 public class CadastroFrame extends JFrame implements ActionListener, ILogisticFrame {
 

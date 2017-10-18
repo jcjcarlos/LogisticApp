@@ -1,4 +1,4 @@
-package LogisticApp.view.interfaces;
+package LogisticApp.view.gui.interfaces;
 
 public interface ILogisticFrame {
 	

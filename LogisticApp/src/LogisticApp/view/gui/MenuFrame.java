@@ -15,8 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import LogisticApp.view.gui.interfaces.ILogisticFrame;
 import LogisticApp.view.interfaces.IApplicationView;
-import LogisticApp.view.interfaces.ILogisticFrame;
 
 public class MenuFrame extends JFrame implements ActionListener, IApplicationView, ILogisticFrame {
 
