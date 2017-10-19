@@ -4,8 +4,6 @@ import java.util.List;
 
 public class RotaPanelInfoVO extends PanelInfoVO {
 
-	private String nome;
-	private char tipo;
 	private int idOrigem;
 	private int idDestino;
 	private double capacidadeTotal;
@@ -14,30 +12,12 @@ public class RotaPanelInfoVO extends PanelInfoVO {
 	private List<Integer> trechos;
 
 	public RotaPanelInfoVO() {
-		this.nome = null;
-		this.tipo = '\0';
 		this.idOrigem = 0;
 		this.idDestino = 0;
 		this.capacidadeTotal = 0;
 		this.custoGrama = 0;
 		this.tempoEntrega = 0;
 		this.trechos = null;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public char getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(char tipo) {
-		this.tipo = tipo;
 	}
 
 	public int getIdOrigem() {

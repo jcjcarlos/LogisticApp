@@ -125,7 +125,7 @@ public class RotaDAOSQL implements IRotaDAO {
 		}
 		Rota rota = this.createRota(rset);
 		if (rota == null)
-			throw new RotaNotFoundException("ID: " + id);
+			throw new RotaNotFoundException("Rota com ID " + id + " não encontrada.");
 		return rota;
 	}
 
@@ -142,7 +142,7 @@ public class RotaDAOSQL implements IRotaDAO {
 		}
 		Rota rota = this.createRota(rset);
 		if (rota == null)
-			throw new RotaNotFoundException("Nome: " + name);
+			throw new RotaNotFoundException("Rota com nome " + name + " não encontrada.");
 		return rota;
 	}
 

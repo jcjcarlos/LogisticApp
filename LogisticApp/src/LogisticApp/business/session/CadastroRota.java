@@ -49,7 +49,8 @@ public class CadastroRota implements ICadastroRotaSession {
 	@Override
 	public RotaVO recuperarRotaPorNome(String nome) throws Exception {
 		Rota rota = this.rotaDAO.retrieveByName(nome);
-		RotaVO rotaVO = new RotaVO(rota.getId(), rota.getNome());
+		RotaVO rotaVO = new RotaVO(rota.getId(), rota.getNome(), rota.getOrigem().getDescricao(),
+				rota.getDestino().getDescricao());
 		return rotaVO;
 	}
 

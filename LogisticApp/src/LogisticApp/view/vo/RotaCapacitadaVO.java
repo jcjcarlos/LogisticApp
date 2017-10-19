@@ -6,7 +6,7 @@ public class RotaCapacitadaVO extends RotaVO {
 	private double valorPeso;
 
 	public RotaCapacitadaVO(int id, String nome, int tempoEntrega, double valorPeso) {
-		super(id, nome);
+		super(id, nome, null, null);
 		this.tempoEntrega = tempoEntrega;
 		this.valorPeso = valorPeso;
 	}
