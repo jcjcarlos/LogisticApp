@@ -14,6 +14,7 @@ import LogisticApp.data.interfaces.ILocalidadeDAO;
 import LogisticApp.data.interfaces.ISequenceSurrogate;
 import LogisticApp.data.queries.LocalidadeQueries;
 import LogisticApp.exception.CadastroException;
+import LogisticApp.exception.LogisticException;
 
 public class LocalidadeDAOSQL implements ILocalidadeDAO {
 
@@ -33,7 +34,7 @@ public class LocalidadeDAOSQL implements ILocalidadeDAO {
 			if (ex.getSQLState().startsWith("23"))
 				throw new CadastroException("Uma localidade com esse nome já existe nos nossos registros.");
 			else
-				throw new CadastroException("Erro na base de dados.");
+				throw new CadastroException("Erro no banco de dados.");
 		}
 	}
 
@@ -42,7 +43,12 @@ public class LocalidadeDAOSQL implements ILocalidadeDAO {
 		List<Localidade> localidades = new ArrayList<Localidade>();
 		PreparedStatement pstm = DBConnection.getConnection()
 				.prepareStatement(LocalidadeQueries.RETRIEVE_ALL.getConsulta());
-		ResultSet rset = pstm.executeQuery();
+		ResultSet rset;
+		try {
+			rset = pstm.executeQuery();
+		} catch (Exception ex) {
+			throw new LogisticException("Erro no banco de dados.");
+		}
 		while (rset.next()) {
 			Localidade localidade = new Localidade(rset.getInt("id"), rset.getString("descricao"));
 			localidades.add(localidade);
@@ -56,7 +62,12 @@ public class LocalidadeDAOSQL implements ILocalidadeDAO {
 		PreparedStatement pstm = DBConnection.getConnection()
 				.prepareStatement(LocalidadeQueries.RETRIEVE_BY_ID.getConsulta());
 		pstm.setInt(1, id);
-		ResultSet rset = pstm.executeQuery();
+		ResultSet rset;
+		try {
+			rset = pstm.executeQuery();
+		} catch (Exception ex) {
+			throw new LogisticException("Erro no banco de dados.");
+		}
 		Localidade localidade = null;
 		if (rset.next())
 			localidade = new Localidade(rset.getInt("id"), rset.getString("descricao"));
@@ -70,7 +81,11 @@ public class LocalidadeDAOSQL implements ILocalidadeDAO {
 		pstm.setInt(1, localidade.getId());
 		pstm.setString(2, localidade.getDescricao());
 		pstm.setInt(3, localidade.getId());
-		pstm.executeUpdate();
+		try {
+			pstm.executeUpdate();
+		} catch (Exception ex) {
+			throw new LogisticException("Erro durante a rotina de atualização de localidades.");
+		}
 	}
 
 }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import LogisticApp.exception.LogisticException;
+
 public class Fracional extends Rota {
 
 	private List<Rota> trechos;
@@ -26,7 +28,7 @@ public class Fracional extends Rota {
 	}
 	
 	@Override
-	public void aumentarCapacidadeAlocada(double volume) {
+	public void aumentarCapacidadeAlocada(double volume) throws LogisticException {
 		for (Rota rota : this.trechos)
 			rota.aumentarCapacidadeAlocada(volume);
 	}

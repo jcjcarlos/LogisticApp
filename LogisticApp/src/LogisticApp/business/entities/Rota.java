@@ -1,5 +1,7 @@
 package LogisticApp.business.entities;
 
+import LogisticApp.exception.LogisticException;
+
 public abstract class Rota implements Comparable<Rota> {
 
 	protected int id;
@@ -14,7 +16,7 @@ public abstract class Rota implements Comparable<Rota> {
 		this.setNome(nome);
 	}
 
-	public abstract void aumentarCapacidadeAlocada(double volume);
+	public abstract void aumentarCapacidadeAlocada(double volume) throws LogisticException;
 	
 	@Override
 	public int compareTo(Rota o){

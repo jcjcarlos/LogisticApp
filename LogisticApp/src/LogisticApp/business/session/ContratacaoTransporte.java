@@ -14,7 +14,6 @@ import LogisticApp.data.sql.RotaDAOSQL;
 import LogisticApp.exception.LogisticException;
 import LogisticApp.view.vo.LocalidadeVO;
 import LogisticApp.view.vo.RotaCapacitadaVO;
-import LogisticApp.view.vo.RotaVO;
 
 public class ContratacaoTransporte implements IContratacaoTransporteSession {
 
@@ -27,10 +26,18 @@ public class ContratacaoTransporte implements IContratacaoTransporteSession {
 	}
 
 	@Override
-	public void atualizarRota(int idRota, double pesoVolume) throws Exception {
-		Rota rota = this.rotaDAO.retrieveById(idRota);
-		rota.aumentarCapacidadeAlocada(pesoVolume);
-		this.rotaDAO.update(rota);
+	public void atualizarRota(int idRota, double pesoVolume) throws LogisticException {
+		try {
+			Rota rota = this.rotaDAO.retrieveById(idRota);
+			rota.aumentarCapacidadeAlocada(pesoVolume);
+			this.rotaDAO.update(rota);
+		} 
+		catch(LogisticException e){
+			throw e;
+		}
+		catch (Exception e) {
+			throw new LogisticException("Erro durante a rotina de contratação de transporte.");
+		}
 	}
 
 	private double calcularValorPeso(double custoGrama, double pesoVolume) {
@@ -38,18 +45,20 @@ public class ContratacaoTransporte implements IContratacaoTransporteSession {
 	}
 
 	@Override
-	public List<RotaVO> getInfoRotasCapacitadas(int idOrigem, int idDestino, double pesoVolume)
+	public Collection<RotaCapacitadaVO> getInfoRotasCapacitadas(int idOrigem, int idDestino, double pesoVolume)
 			throws Exception {
-		List<RotaVO> rotasCapacitadas = new ArrayList<RotaVO>();
 		Localidade origem = this.localidadeDAO.retrieveById(idOrigem);
 		Localidade destino = this.localidadeDAO.retrieveById(idDestino);
 		Collection<Rota> rotas = this.getRotasCapacitadas(origem, destino, pesoVolume);
-		
-		if(rotas.isEmpty())
-			throw new LogisticException("Não foi possível encontrar rotas nesse trecho com capacidade para o peso solicitado.");
-		
+
+		if (rotas.isEmpty())
+			throw new LogisticException(
+					"Não foi possível encontrar rotas nesse trecho com capacidade para o peso solicitado.");
+
+		List<RotaCapacitadaVO> rotasCapacitadas = new ArrayList<RotaCapacitadaVO>();
+
 		for (Rota rota : rotas)
-			rotasCapacitadas.add(new RotaCapacitadaVO(rota.getId(), rota.getNome(), pesoVolume,
+			rotasCapacitadas.add(new RotaCapacitadaVO(rota.getId(), rota.getNome(), rota.getTempoEntrega(),
 					this.calcularValorPeso(rota.getCustoGrama(), pesoVolume)));
 		return rotasCapacitadas;
 	}
@@ -57,10 +66,11 @@ public class ContratacaoTransporte implements IContratacaoTransporteSession {
 	private Collection<Rota> getRotasCapacitadas(Localidade origem, Localidade destino, double pesoVolume)
 			throws Exception {
 		Collection<Rota> rotas = this.rotaDAO.retrieveByOriginDestiny(origem, destino);
-		
-		if(rotas.isEmpty())
-			throw new LogisticException("Não foi possível encontrar rotas com essas localidades como origem e destino.");
-		
+
+		if (rotas.isEmpty())
+			throw new LogisticException(
+					"Não foi possível encontrar rotas com essas localidades como origem e destino.");
+
 		List<Rota> rotasCapacitadas = new ArrayList<Rota>();
 		for (Rota rota : rotas) {
 			if (rota.getCapacidadeTransporte() >= pesoVolume)

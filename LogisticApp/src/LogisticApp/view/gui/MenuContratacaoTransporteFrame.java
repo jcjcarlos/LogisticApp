@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.util.Collection;
 import java.util.List;
 
 import javax.swing.Box;
@@ -29,7 +30,7 @@ import LogisticApp.business.session.interfaces.IContratacaoTransporteSession;
 import LogisticApp.exception.LogisticException;
 import LogisticApp.view.gui.interfaces.ILogisticFrame;
 import LogisticApp.view.vo.LocalidadeVO;
-import LogisticApp.view.vo.RotaVO;
+import LogisticApp.view.vo.RotaCapacitadaVO;
 
 public class MenuContratacaoTransporteFrame extends JFrame implements ActionListener, ILogisticFrame {
 
@@ -53,36 +54,40 @@ public class MenuContratacaoTransporteFrame extends JFrame implements ActionList
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		ILogisticFrame next = null;
-		if(e.getSource().equals(this.btnVoltar))
+		if (e.getSource().equals(this.btnVoltar))
 			next = new MenuFrame();
-		else if(e.getSource().equals(this.btnBuscar)){
-			try{
-				List<RotaVO> rotas = this.validadeInformation();
-				next = new ContratacaoTransporteFrame(rotas);
-			}
-			catch(Exception ex){
+		else if (e.getSource().equals(this.btnBuscar)) {
+			try {
+				LocalidadeVO localidadeOrigem = (LocalidadeVO) this.cboxOrigem.getSelectedItem();
+				LocalidadeVO localidadeDestino = (LocalidadeVO) this.cboxDestino.getSelectedItem();
+				double pesoVolume = Double.parseDouble(this.txtPeso.getText());
+				
+				this.validadeInformation(localidadeOrigem, localidadeDestino, pesoVolume);
+				
+				Collection<RotaCapacitadaVO> rotas = this.contratacaoTransporte
+						.getInfoRotasCapacitadas(localidadeOrigem.getId(), localidadeDestino.getId(), pesoVolume);
+				
+				next = new ContratacaoTransporteFrame(localidadeOrigem,
+													  localidadeDestino, 
+													  pesoVolume,
+													  rotas);
+			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-			}			
+			}
 		}
-		if(next != null){
+		if (next != null) {
 			next.initialize();
 			this.dispose();
 		}
 	}
-	
-	private List<RotaVO> validadeInformation() throws Exception {
-		LocalidadeVO localidadeOrigem = (LocalidadeVO)this.cboxOrigem.getSelectedItem();
-		LocalidadeVO localidadeDestino = (LocalidadeVO)this.cboxDestino.getSelectedItem();
-		double pesoVolume = Double.parseDouble(this.txtPeso.getText());
-		
-		if(localidadeOrigem == null)
+
+	private void validadeInformation(LocalidadeVO localidadeOrigem, LocalidadeVO localidadeDestino, double pesoVolume) throws Exception {
+		if (localidadeOrigem == null)
 			throw new LogisticException("Por favor insira uma Localidade origem.");
-		else if(localidadeDestino == null)
+		else if (localidadeDestino == null)
 			throw new LogisticException("Por favor insira uma Localidade destino.");
-		else if(pesoVolume <= 0.0)
+		else if (pesoVolume <= 0.0)
 			throw new LogisticException("Não é permitido um peso igual ou abaixo de zero.");
-		
-		return this.contratacaoTransporte.getInfoRotasCapacitadas(localidadeOrigem.getId(), localidadeDestino.getId(), pesoVolume);
 	}
 
 	public void initialize() {
@@ -368,7 +373,7 @@ public class MenuContratacaoTransporteFrame extends JFrame implements ActionList
 	}
 
 	private void initializeTextFields() {
-		
+
 		DecimalFormatSymbols symbols = new DecimalFormatSymbols();
 		symbols.setDecimalSeparator('.');
 

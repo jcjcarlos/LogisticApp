@@ -1,5 +1,7 @@
 package LogisticApp.business.entities;
 
+import LogisticApp.exception.LogisticException;
+
 public class Direta extends Rota {
 
 	private double capacidadeAlocada;
@@ -8,9 +10,9 @@ public class Direta extends Rota {
 	private Localidade destino;
 	private Localidade origem;
 	private int tempoEntrega;
-	
-	public Direta(String nome, Localidade origem, Localidade destino, double capacidadeTotal,
-			double capacidadeAlocada, double custoGrama, int tempoEntrega){
+
+	public Direta(String nome, Localidade origem, Localidade destino, double capacidadeTotal, double capacidadeAlocada,
+			double custoGrama, int tempoEntrega) {
 		this(0, nome, origem, destino, capacidadeTotal, capacidadeAlocada, custoGrama, tempoEntrega);
 	}
 
@@ -25,7 +27,11 @@ public class Direta extends Rota {
 		this.setTempoEntrega(tempoEntrega);
 	}
 
-	public void aumentarCapacidadeAlocada(double volume) {
+	public void aumentarCapacidadeAlocada(double volume) throws LogisticException {
+		if ((this.getCapacidadeAlocada() + volume) > this.getCapacidadeTotal())
+			throw new LogisticException("Não é possível alocar " + String.format("%.2f", volume)
+					+ " KG para essa rota. A mesma se encontra com atualmente "
+					+ String.format("%.2f", this.getCapacidadeTransporte()) + " KG disponíveis para alocação.");
 		this.setCapacidadeAlocada(this.getCapacidadeAlocada() + volume);
 	}
 

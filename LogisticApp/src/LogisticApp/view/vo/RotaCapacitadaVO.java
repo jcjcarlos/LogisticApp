@@ -1,22 +1,27 @@
 package LogisticApp.view.vo;
 
 public class RotaCapacitadaVO extends RotaVO {
-	
-	private double pesoVolume;
+
+	private int tempoEntrega;
 	private double valorPeso;
-	
-	public RotaCapacitadaVO(int id, String nome, double pesoVolume, double valorPeso) {
+
+	public RotaCapacitadaVO(int id, String nome, int tempoEntrega, double valorPeso) {
 		super(id, nome);
-		this.pesoVolume = pesoVolume;
+		this.tempoEntrega = tempoEntrega;
 		this.valorPeso = valorPeso;
 	}
-	
-	public double getPesoVolume() {
-		return pesoVolume;
+
+	public int getTempoEntrega() {
+		return tempoEntrega;
 	}
-	
+
 	public double getValorPeso() {
 		return valorPeso;
+	}
+
+	public String toString() {
+		return this.getNome() + " - " + this.getTempoEntrega() + " dias - R$ "
+				+ String.format("%.2f", this.getValorPeso());
 	}
 
 }

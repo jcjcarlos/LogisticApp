@@ -17,7 +17,13 @@ public class SequenceSurrogateSQL implements ISequenceSurrogate{
 	public int generateKey(String sequenceName) throws Exception {
 		PreparedStatement pstm = DBConnection.getConnection().prepareStatement(SequenceSurrogateSQL.GENERATE);
 		pstm.setString(1, sequenceName);
-		ResultSet rset = pstm.executeQuery();
+		ResultSet rset;
+		try{
+			rset = pstm.executeQuery();
+		}
+		catch(Exception ex){
+			throw new CadastroException("Erro no banco de dados.");
+		}
 		if(rset.next())
 			return rset.getInt(1);
 		throw new CadastroException("Erro ao gerar o ID do seu novo cadastro na base.");
@@ -28,7 +34,12 @@ public class SequenceSurrogateSQL implements ISequenceSurrogate{
 		PreparedStatement pstm = DBConnection.getConnection().prepareStatement(SequenceSurrogateSQL.RESTORE);
 		pstm.setString(1, sequenceName);
 		pstm.setInt(2, id);
-		pstm.executeQuery();
+		try{
+			pstm.executeQuery();
+		}
+		catch(Exception ex){
+			throw new CadastroException("Erro no banco de dados.");
+		}
 	}
 
 }

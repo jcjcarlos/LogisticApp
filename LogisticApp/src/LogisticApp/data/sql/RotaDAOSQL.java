@@ -2,6 +2,7 @@ package LogisticApp.data.sql;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -15,6 +16,8 @@ import LogisticApp.data.DBConnection;
 import LogisticApp.data.interfaces.IRotaDAO;
 import LogisticApp.data.interfaces.ISequenceSurrogate;
 import LogisticApp.data.queries.RotaQueries;
+import LogisticApp.exception.CadastroException;
+import LogisticApp.exception.LogisticException;
 import LogisticApp.exception.RotaNotFoundException;
 
 public class RotaDAOSQL implements IRotaDAO {
@@ -43,9 +46,12 @@ public class RotaDAOSQL implements IRotaDAO {
 		}
 		try {
 			pstm.executeUpdate();
-		} catch (Exception ex) {
+		} catch (SQLException ex) {
 			sequenceSurrogate.restoreKey("surrogate_rota", id);
-			throw ex;
+			if (ex.getSQLState().startsWith("23"))
+				throw new CadastroException("Uma rota com esse nome já existe nos nossos registros.");
+			else
+				throw new CadastroException("Erro no banco de dados.");
 		}
 	}
 
@@ -59,14 +65,23 @@ public class RotaDAOSQL implements IRotaDAO {
 		pstm.setInt(1, idRotaFracional);
 		pstm.setInt(2, idRotaTrecho);
 		pstm.setInt(3, ordem);
-		pstm.executeUpdate();
+		try {
+			pstm.executeUpdate();
+		} catch (Exception ex) {
+			throw new CadastroException("Erro no banco de dados.");
+		}
 	}
 
 	@Override
 	public Collection<Rota> retrieveAll() throws Exception {
 		PreparedStatement pstm = DBConnection.getConnection().prepareStatement(RotaQueries.RETRIEVE_ALL.getConsulta());
 		List<Rota> rotas = new ArrayList<Rota>();
-		ResultSet rset = pstm.executeQuery();
+		ResultSet rset;
+		try {
+			rset = pstm.executeQuery();
+		} catch (Exception ex) {
+			throw new LogisticException("Erro no banco de dados.");
+		}
 		while (rset.next()) {
 			Rota rota = this.retrieveById(rset.getInt("id"));
 			rotas.add(rota);
@@ -102,7 +117,12 @@ public class RotaDAOSQL implements IRotaDAO {
 		PreparedStatement pstm = DBConnection.getConnection()
 				.prepareStatement(RotaQueries.RETRIEVE_BY_ID.getConsulta());
 		pstm.setInt(1, id);
-		ResultSet rset = pstm.executeQuery();
+		ResultSet rset;
+		try {
+			rset = pstm.executeQuery();
+		} catch (Exception ex) {
+			throw new LogisticException("Erro no banco de dados.");
+		}
 		Rota rota = this.createRota(rset);
 		if (rota == null)
 			throw new RotaNotFoundException("ID: " + id);
@@ -114,7 +134,12 @@ public class RotaDAOSQL implements IRotaDAO {
 		PreparedStatement pstm = DBConnection.getConnection()
 				.prepareStatement(RotaQueries.RETRIEVE_BY_NAME.getConsulta());
 		pstm.setString(1, name);
-		ResultSet rset = pstm.executeQuery();
+		ResultSet rset;
+		try {
+			rset = pstm.executeQuery();
+		} catch (Exception ex) {
+			throw new LogisticException("Erro no banco de dados.");
+		}
 		Rota rota = this.createRota(rset);
 		if (rota == null)
 			throw new RotaNotFoundException("Nome: " + name);
@@ -128,7 +153,12 @@ public class RotaDAOSQL implements IRotaDAO {
 		pstm.setInt(1, origem.getId());
 		pstm.setInt(2, destino.getId());
 		List<Rota> rotas = new ArrayList<Rota>();
-		ResultSet rset = pstm.executeQuery();
+		ResultSet rset;
+		try {
+			rset = pstm.executeQuery();
+		} catch (Exception ex) {
+			throw new LogisticException("Erro no banco de dados.");
+		}
 		while (rset.next()) {
 			Rota rota = this.retrieveById(rset.getInt("id"));
 			rotas.add(rota);
@@ -145,7 +175,12 @@ public class RotaDAOSQL implements IRotaDAO {
 		PreparedStatement pstm = DBConnection.getConnection()
 				.prepareStatement(RotaQueries.RETRIEVE_TRECHOS_BY_ID.getConsulta());
 		pstm.setInt(1, id);
-		ResultSet resultSet = pstm.executeQuery();
+		ResultSet resultSet;
+		try {
+			resultSet = pstm.executeQuery();
+		} catch (Exception ex) {
+			throw new LogisticException("Erro no banco de dados.");
+		}
 		while (resultSet.next()) {
 			Rota trecho = this.retrieveById(resultSet.getInt("idRotaTrecho"));
 			trechos.add(trecho);
@@ -174,7 +209,11 @@ public class RotaDAOSQL implements IRotaDAO {
 			pstm.setString(9, "F");
 			this.updateTrechos((Fracional) rota);
 		}
-		pstm.executeUpdate();
+		try {
+			pstm.executeUpdate();
+		} catch (Exception ex) {
+			throw new LogisticException("Erro durante a rotina de atualização de rotas.");
+		}
 	}
 
 	private int updateTrecho(int idRotaFracional, int idRotaTrecho, int ordem) throws Exception {
@@ -184,14 +223,23 @@ public class RotaDAOSQL implements IRotaDAO {
 		pstm.setInt(3, ordem);
 		pstm.setInt(4, idRotaFracional);
 		pstm.setInt(5, ordem);
-		return pstm.executeUpdate();
+		try {
+			return pstm.executeUpdate();
+		} catch (Exception ex) {
+			throw new LogisticException("Erro durante a rotina de atualização de rotas.");
+		}
 	}
 
 	private void updateTrechos(Fracional rota) throws Exception {
-		for (int i = 0; i < rota.getTrechosSize(); i++) {
-			int rowModified = this.updateTrecho(rota.getId(), rota.getTrecho(i).getId(), i);
-			if (rowModified == 0)
-				this.insertTrecho(rota.getId(), rota.getTrecho(i).getId(), i);
+		try {
+			for (int i = 0; i < rota.getTrechosSize(); i++) {
+				int rowModified = this.updateTrecho(rota.getId(), rota.getTrecho(i).getId(), i);
+				if (rowModified == 0)
+					this.insertTrecho(rota.getId(), rota.getTrecho(i).getId(), i);
+				this.update(rota.getTrecho(i));
+			}
+		} catch (Exception ex) {
+			throw new LogisticException("Erro durante a rotina de atualização de rotas.");
 		}
 	}
 
