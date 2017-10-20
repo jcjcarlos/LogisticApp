@@ -2,7 +2,7 @@ package LogisticApp.view.vo;
 
 import java.util.List;
 
-public class RotaPanelInfoVO extends PanelInfoVO {
+public class RotaPanelInfoVO {
 
 	private int idOrigem;
 	private int idDestino;

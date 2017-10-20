@@ -6,10 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.event.MouseAdapter;
 
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
@@ -26,14 +24,13 @@ import javax.swing.border.BevelBorder;
 
 import LogisticApp.business.session.CadastroRota;
 import LogisticApp.business.session.interfaces.ICadastroRotaSession;
+import LogisticApp.exception.CadastroException;
 import LogisticApp.exception.LogisticException;
-import LogisticApp.view.vo.PanelInfoVO;
 import LogisticApp.view.vo.RotaPanelInfoVO;
 import LogisticApp.view.vo.RotaVO;
 
-public class FracionalPanel extends LogisticPanel implements ActionListener {
+public class FracionalPanelBuilder extends RotaPanelBuilder implements ActionListener {
 
-	private static final long serialVersionUID = 1L;
 	private JButton btnBuscar;
 	private ICadastroRotaSession cadastroRota;
 	private JLabel lblBuscarTrecho;
@@ -43,7 +40,8 @@ public class FracionalPanel extends LogisticPanel implements ActionListener {
 	private JPanel panelSecond;
 	private JTextField txtTrecho;
 
-	public FracionalPanel() {
+	public FracionalPanelBuilder(JPanel panel) {
+		super(panel);
 		this.cadastroRota = new CadastroRota();
 	}
 
@@ -52,7 +50,7 @@ public class FracionalPanel extends LogisticPanel implements ActionListener {
 		if (e.getSource().equals(this.btnBuscar)) {
 			try {
 				String trecho = this.txtTrecho.getText();
-				if (trecho == null)
+				if (trecho == null || trecho.trim().isEmpty())
 					throw new LogisticException("Por favor, insira um nome de um trecho antes de pesquisar.");
 				RotaVO rota = this.cadastroRota.recuperarRotaPorNome(trecho);
 				this.updateListTrechos(rota);
@@ -64,6 +62,9 @@ public class FracionalPanel extends LogisticPanel implements ActionListener {
 
 	@Override
 	public void buildPanel() {
+		this.panel.removeAll();
+		this.panel.revalidate();
+		this.panel.repaint();
 		this.initializeLayout();
 		this.initializePanels();
 		this.initializeLabels();
@@ -71,18 +72,19 @@ public class FracionalPanel extends LogisticPanel implements ActionListener {
 		this.initializeButtons();
 		this.initializeList();
 		this.initializeComponents();
-		this.setVisible(true);
 	}
-	
+
 	@Override
-	public PanelInfoVO getPanelData() throws Exception {
+	public RotaPanelInfoVO getPanelData() throws Exception {
 		RotaPanelInfoVO rotaPanelVO = new RotaPanelInfoVO();
 		List<Integer> trechos = new ArrayList<Integer>();
 		ListModel<RotaVO> listModel = this.listTrechos.getModel();
-		for(int i = 0; i<listModel.getSize(); i++){
+		for (int i = 0; i < listModel.getSize(); i++) {
 			RotaVO rota = listModel.getElementAt(i);
 			trechos.add(rota.getId());
 		}
+		if(trechos.isEmpty())
+			throw new CadastroException("Por favor selecione um ou mais trechos.");
 		rotaPanelVO.setTrechos(trechos);
 		return rotaPanelVO;
 	}
@@ -132,7 +134,7 @@ public class FracionalPanel extends LogisticPanel implements ActionListener {
 		gbc_verticalStrut.fill = GridBagConstraints.VERTICAL;
 		gbc_verticalStrut.gridx = 0;
 		gbc_verticalStrut.gridy = 2;
-		this.add(verticalStrut, gbc_verticalStrut);
+		this.panel.add(verticalStrut, gbc_verticalStrut);
 
 	}
 
@@ -144,7 +146,8 @@ public class FracionalPanel extends LogisticPanel implements ActionListener {
 		gbc_lblTrechos.gridy = 0;
 		this.panelFirst.add(this.lblTrechos, gbc_lblTrechos);
 
-		this.lblBuscarTrecho = new JLabel("Buscar trecho:");
+		this.lblBuscarTrecho = new JLabel(
+				"<html><p align=\"right\" style=\"word-wrap: break-word;\">Buscar&nbsp;trecho por nome:</p></html>");
 		GridBagConstraints gbc_lblBuscarTrecho = new GridBagConstraints();
 		gbc_lblBuscarTrecho.insets = new Insets(0, 0, 5, 5);
 		gbc_lblBuscarTrecho.gridx = 1;
@@ -158,22 +161,15 @@ public class FracionalPanel extends LogisticPanel implements ActionListener {
 		gridBagLayout.rowHeights = new int[] { 33, 350, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 1.0, 1.0, Double.MIN_VALUE };
-		this.setLayout(gridBagLayout);
+		this.panel.setLayout(gridBagLayout);
 	}
 
 	private void initializeList() {
-		
+
 		this.listTrechos = new JList<RotaVO>();
 		this.listTrechos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.listTrechos.setLayoutOrientation(JList.VERTICAL);
-		
-		this.listTrechos.addMouseListener(new MouseAdapter(){
-			@Override
-			public void mouseClicked(MouseEvent e){
-				e.consume();
-			}
-		});
-		
+
 		this.listTrechos.setModel(new DefaultListModel<RotaVO>());
 
 		JScrollPane listScroller = new JScrollPane(this.listTrechos);
@@ -196,7 +192,7 @@ public class FracionalPanel extends LogisticPanel implements ActionListener {
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 0;
 		gbc_panel.gridy = 0;
-		this.add(this.panelFirst, gbc_panel);
+		this.panel.add(this.panelFirst, gbc_panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] { 0, 0 };
 		gbl_panel.rowHeights = new int[] { 0, 0 };
@@ -210,7 +206,7 @@ public class FracionalPanel extends LogisticPanel implements ActionListener {
 		gbc_panel_1.fill = GridBagConstraints.BOTH;
 		gbc_panel_1.gridx = 0;
 		gbc_panel_1.gridy = 1;
-		this.add(this.panelSecond, gbc_panel_1);
+		this.panel.add(this.panelSecond, gbc_panel_1);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
 		gbl_panel_1.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
 		gbl_panel_1.rowHeights = new int[] { 41, 0, 0, 0 };
@@ -230,10 +226,19 @@ public class FracionalPanel extends LogisticPanel implements ActionListener {
 		this.txtTrecho.setColumns(10);
 	}
 
-	private void updateListTrechos(RotaVO rota){
+	private void updateListTrechos(RotaVO rota) throws CadastroException {
 		DefaultListModel<RotaVO> model = new DefaultListModel<RotaVO>();
 		ListModel<RotaVO> currentModel = this.listTrechos.getModel();
-		for(int i = 0; i< currentModel.getSize(); i++){
+		
+		// as rotas precisam ser sequenciais
+		// logo se a origem da nova rota não for igual ao destino da última, lançar exceção
+		if(currentModel.getSize() > 0){
+			RotaVO last = currentModel.getElementAt(currentModel.getSize() - 1);
+			if(!last.getDescricaoDestino().equals(rota.getDescricaoOrigem()))
+				throw new CadastroException("Trecho inválido. A próxima rota precisa possuir " + last.getDescricaoDestino() + " como origem.");
+		}
+		
+		for (int i = 0; i < currentModel.getSize(); i++) {
 			RotaVO trecho = currentModel.getElementAt(i);
 			model.addElement(trecho);
 		}

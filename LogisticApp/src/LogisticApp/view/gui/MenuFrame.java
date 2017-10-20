@@ -45,6 +45,7 @@ public class MenuFrame extends JFrame implements ActionListener, IApplicationVie
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.initializeElements();
+		this.setResizable(false);
 		this.setVisible(true);
 	}
 

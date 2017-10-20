@@ -70,6 +70,7 @@ public class LocalidadeFrame extends JFrame implements ILogisticFrame, ActionLis
 		this.setBounds(100, 100, 343, 332);
 		this.setLocationRelativeTo(null);
 		this.initializeElements();
+		this.setResizable(false);
 		this.setVisible(true);
 	}
 

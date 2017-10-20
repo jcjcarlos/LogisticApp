@@ -69,7 +69,7 @@ public abstract class Rota implements Comparable<Rota> {
 		return result;
 	}
 
-	private void setId(int id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

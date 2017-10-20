@@ -89,15 +89,19 @@ public class MenuContratacaoTransporteFrame extends JFrame implements ActionList
 		else if (pesoVolume <= 0.0)
 			throw new LogisticException("Não é permitido um peso igual ou abaixo de zero.");
 	}
+	
+	public MenuContratacaoTransporteFrame(){
+		this.contratacaoTransporte = new ContratacaoTransporte();
+	}
 
 	public void initialize() {
 		try {
-			this.contratacaoTransporte = new ContratacaoTransporte();
 			this.setTitle("Contratação de Transporte");
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			this.setBounds(100, 100, 327, 382);
 			this.setLocationRelativeTo(null);
 			this.initializeElements();
+			this.setResizable(false);
 			this.setVisible(true);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Erro ao inicializar a interface.", "Erro", JOptionPane.ERROR_MESSAGE);

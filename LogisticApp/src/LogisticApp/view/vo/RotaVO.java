@@ -10,7 +10,7 @@ public class RotaVO {
 	public RotaVO(int id, String nome, String descricaoOrigem, String descricaoDestino) {
 		this.id = id;
 		this.nome = nome;
-		this.descricaoOrigem = descricaoDestino;
+		this.descricaoOrigem = descricaoOrigem;
 		this.descricaoDestino = descricaoDestino;
 	}
 
@@ -26,7 +26,7 @@ public class RotaVO {
 		return descricaoOrigem;
 	}
 
-	public String getNomeDestino() {
+	public String getDescricaoDestino() {
 		return descricaoDestino;
 	}
 	
