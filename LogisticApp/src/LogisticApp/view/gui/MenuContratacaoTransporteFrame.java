@@ -87,7 +87,7 @@ public class MenuContratacaoTransporteFrame extends JFrame implements ActionList
 		else if (localidadeDestino == null)
 			throw new LogisticException("Por favor insira uma Localidade destino.");
 		else if (pesoVolume <= 0.0)
-			throw new LogisticException("Não é permitido um peso igual ou abaixo de zero.");
+			throw new LogisticException("<html>N&atilde;o &eacute; permitido um peso igual ou abaixo de zero.</html>");
 	}
 	
 	public MenuContratacaoTransporteFrame(){
@@ -96,7 +96,7 @@ public class MenuContratacaoTransporteFrame extends JFrame implements ActionList
 
 	public void initialize() {
 		try {
-			this.setTitle("Contratação de Transporte");
+			this.setTitle("<html>Contrata&ccedil;&atilde;o de Transporte</html>");
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			this.setBounds(100, 100, 327, 382);
 			this.setLocationRelativeTo(null);
@@ -287,7 +287,7 @@ public class MenuContratacaoTransporteFrame extends JFrame implements ActionList
 	}
 
 	private void initializeLabels() {
-		this.lblContrataoDeTransporte = new JLabel("Contratação de Transporte");
+		this.lblContrataoDeTransporte = new JLabel("<html>Contrata&ccedil;&atilde;o de Transporte</html>");
 		GridBagConstraints gbc_lblContrataoDeTransporte = new GridBagConstraints();
 		gbc_lblContrataoDeTransporte.gridx = 3;
 		gbc_lblContrataoDeTransporte.gridy = 1;

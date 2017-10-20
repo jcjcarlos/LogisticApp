@@ -32,7 +32,7 @@ public class LocalidadeDAOSQL implements ILocalidadeDAO {
 		catch (SQLException ex) {
 			sequenceSurrogate.restoreKey("surrogate_localidade", id);
 			if (ex.getSQLState().startsWith("23"))
-				throw new CadastroException("Uma localidade com esse nome já existe nos nossos registros.");
+				throw new CadastroException("<html>Uma localidade com esse nome j&aacute; existe nos nossos registros.</html>");
 			else
 				throw new CadastroException("Erro no banco de dados.");
 		}
@@ -84,7 +84,7 @@ public class LocalidadeDAOSQL implements ILocalidadeDAO {
 		try {
 			pstm.executeUpdate();
 		} catch (Exception ex) {
-			throw new LogisticException("Erro durante a rotina de atualização de localidades.");
+			throw new LogisticException("<html>Erro durante a rotina de atualiza&ccedil;&atilde;o de localidades.</html>");
 		}
 	}
 
