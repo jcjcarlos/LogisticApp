@@ -27,6 +27,7 @@ public class RotaDAOSQL implements IRotaDAO {
 		PreparedStatement pstm = DBConnection.getConnection().prepareStatement(RotaQueries.INSERT_ROTA.getConsulta());
 		ISequenceSurrogate sequenceSurrogate = new SequenceSurrogateSQL();
 		int id = sequenceSurrogate.generateKey("surrogate_rota");
+		rota.setId(id);
 		pstm.setInt(1, id);
 		pstm.setString(2, rota.getNome());
 		pstm.setObject(3, (rota.getOrigem() == null) ? null : rota.getOrigem().getId());
@@ -42,7 +43,6 @@ public class RotaDAOSQL implements IRotaDAO {
 			pstm.setObject(5, null);
 			pstm.setObject(6, null);
 			pstm.setString(9, "F");
-			this.createTrechos((Fracional) rota);
 		}
 		try {
 			pstm.executeUpdate();
@@ -52,6 +52,15 @@ public class RotaDAOSQL implements IRotaDAO {
 				throw new CadastroException("Uma rota com esse nome já existe nos nossos registros.");
 			else
 				throw new CadastroException("Erro no banco de dados.");
+		}
+		
+		if(rota instanceof Fracional){
+			try{
+				this.createTrechos((Fracional) rota);
+			}
+			catch(Exception ex){
+				throw new CadastroException("Erro no banco de dados.");
+			}
 		}
 	}
 
@@ -207,10 +216,10 @@ public class RotaDAOSQL implements IRotaDAO {
 			pstm.setObject(5, null);
 			pstm.setObject(6, null);
 			pstm.setString(9, "F");
-			this.updateTrechos((Fracional) rota);
 		}
 		try {
 			pstm.executeUpdate();
+			this.updateTrechos((Fracional) rota);
 		} catch (Exception ex) {
 			throw new LogisticException("Erro durante a rotina de atualização de rotas.");
 		}

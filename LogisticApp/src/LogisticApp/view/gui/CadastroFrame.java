@@ -51,6 +51,7 @@ public class CadastroFrame extends JFrame implements ActionListener, ILogisticFr
 		this.setBounds(100, 100, 278, 354);
 		this.setLocationRelativeTo(null);
 		this.initializeElements();
+		this.setResizable(false);
 		this.setVisible(true);
 	}
 	

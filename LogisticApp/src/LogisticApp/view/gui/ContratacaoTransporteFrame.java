@@ -107,6 +107,7 @@ public class ContratacaoTransporteFrame extends JFrame implements ILogisticFrame
 		this.setLocationRelativeTo(null);
 		this.initializeElements();
 		this.initializeData();
+		this.setResizable(false);
 		this.setVisible(true);
 	}
 
