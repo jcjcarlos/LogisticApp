@@ -49,7 +49,7 @@ public class RotaDAOSQL implements IRotaDAO {
 		} catch (SQLException ex) {
 			sequenceSurrogate.restoreKey("surrogate_rota", id);
 			if (ex.getSQLState().startsWith("23"))
-				throw new CadastroException("Uma rota com esse nome já existe nos nossos registros.");
+				throw new CadastroException("<html>Uma rota com esse nome j&aacute; existe nos nossos registros.</html>");
 			else
 				throw new CadastroException("Erro no banco de dados.");
 		}

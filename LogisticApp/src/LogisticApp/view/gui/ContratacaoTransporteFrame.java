@@ -79,11 +79,11 @@ public class ContratacaoTransporteFrame extends JFrame implements ILogisticFrame
 				RotaCapacitadaVO rota = this.listRotas.getSelectedValue();
 
 				if (rota == null)
-					throw new LogisticException("Por favor selecione uma rota para contratação.");
+					throw new LogisticException("<html>Por favor selecione uma rota para contrata&ccedil;&atilde;o.</html>");
 
 				this.contratacaoTransporte.atualizarRota(rota.getId(), this.pesoVolume);
 				JOptionPane.showMessageDialog(null,
-						"Rota " + rota.getNome() + " contratada para o serviço de transporte.", "Sucesso",
+						"Rota " + rota.getNome() + "<html> contratada para o servi&ccedil;o de transporte.</html>", "Sucesso",
 						JOptionPane.PLAIN_MESSAGE);
 
 			} catch (LogisticException ex) {
@@ -101,7 +101,7 @@ public class ContratacaoTransporteFrame extends JFrame implements ILogisticFrame
 
 	@Override
 	public void initialize() {
-		this.setTitle("Contratação de Transporte");
+		this.setTitle("<html>Contrata&ccedil;&atilde;o de Transporte</html>");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(100, 100, 331, 423);
 		this.setLocationRelativeTo(null);
@@ -275,7 +275,7 @@ public class ContratacaoTransporteFrame extends JFrame implements ILogisticFrame
 	}
 
 	private void initializeLabels() {
-		this.lblContratacaoTransporte = new JLabel("Contratação de Transporte");
+		this.lblContratacaoTransporte = new JLabel("<html>Contrata&ccedil;&atilde;o de Transporte</html>");
 		GridBagConstraints gbc_lblContrataoDeTransporte = new GridBagConstraints();
 		gbc_lblContrataoDeTransporte.insets = new Insets(0, 0, 0, 5);
 		gbc_lblContrataoDeTransporte.gridx = 5;

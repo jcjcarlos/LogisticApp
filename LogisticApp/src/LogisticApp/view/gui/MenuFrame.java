@@ -52,7 +52,7 @@ public class MenuFrame extends JFrame implements ActionListener, IApplicationVie
 	private void initializeButtons() {
 		this.btnCadastro = new JButton("Cadastro");
 		this.btnCadastro.addActionListener(this);
-		this.btnContratacao = new JButton("Contratação de Transporte");
+		this.btnContratacao = new JButton("<html>Contrata&ccedil;&atilde;o de Transporte</html>");
 		this.btnContratacao.addActionListener(this);
 	}
 
