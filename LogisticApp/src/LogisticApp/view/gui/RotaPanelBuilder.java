@@ -12,6 +12,12 @@ public abstract class RotaPanelBuilder {
 		this.panel = panel;
 	}
 
+	public void destroyPanel(){
+		this.panel.removeAll();
+		this.panel.revalidate();
+		this.panel.repaint();
+	}
+	
 	public abstract void buildPanel() throws Exception;
 	
 	public abstract RotaPanelInfoVO getPanelData() throws Exception;

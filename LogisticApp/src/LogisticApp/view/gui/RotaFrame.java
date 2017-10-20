@@ -47,6 +47,7 @@ public class RotaFrame extends JFrame implements ILogisticFrame, ActionListener 
 	private JTextField txtNome;
 
 	public RotaFrame() {
+		this.rotaPanelBuilder = null;
 		this.cadastroRota = new CadastroRota();
 	}
 
@@ -65,6 +66,8 @@ public class RotaFrame extends JFrame implements ILogisticFrame, ActionListener 
 				try {
 					this.rotaPanelBuilder.buildPanel();
 				} catch (Exception ex) {
+					this.rotaPanelBuilder.destroyPanel();
+					this.rotaPanelBuilder = null;
 					JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 				}
 			}
