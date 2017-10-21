@@ -110,7 +110,8 @@ public class RotaDAOSQL implements IRotaDAO {
 				Localidade origem = localidadeDAO.retrieveById(rset.getInt("idLocalidadeOrigem"));
 				Localidade destino = localidadeDAO.retrieveById(rset.getInt("idLocalidadeDestino"));
 				rota = new Direta(id_, nome, origem, destino, rset.getDouble("capacidadeTotal"),
-						rset.getDouble("capacidadeAlocada"), rset.getDouble("custoGrama"), rset.getInt("tempoEntrega"));
+						rset.getDouble("capacidadeAlocada"), rset.getDouble("custoGrama"), 
+						  rset.getInt("tempoEntrega"));
 			} else if (tipo == 'F') {
 				Collection<Rota> trechos = this.retrieveTrechos(id_);
 				Fracional fracional = new Fracional(id_, nome);
@@ -134,7 +135,7 @@ public class RotaDAOSQL implements IRotaDAO {
 		}
 		Rota rota = this.createRota(rset);
 		if (rota == null)
-			throw new RotaNotFoundException("Rota com ID " + id + " não encontrada.");
+			throw new RotaNotFoundException("<html>Rota com ID " + id + " n&atilde;o encontrada.</html>");
 		return rota;
 	}
 
@@ -151,7 +152,7 @@ public class RotaDAOSQL implements IRotaDAO {
 		}
 		Rota rota = this.createRota(rset);
 		if (rota == null)
-			throw new RotaNotFoundException("Rota com nome " + name + " não encontrada.");
+			throw new RotaNotFoundException("<html>Rota com nome " + name + " n&atilde;o encontrada.</html>");
 		return rota;
 	}
 
@@ -174,7 +175,8 @@ public class RotaDAOSQL implements IRotaDAO {
 		}
 		if (rotas.size() == 0)
 			throw new RotaNotFoundException(
-					"Não existe rota nesse trecho: " + origem.getDescricao() + " / " + destino.getDescricao());
+					"<html>N&atilde;o existe rota nesse trecho: " + origem.getDescricao() + " / " + 
+			destino.getDescricao() + "</html>");
 		Collections.sort(rotas);
 		return rotas;
 	}
@@ -221,7 +223,7 @@ public class RotaDAOSQL implements IRotaDAO {
 			pstm.executeUpdate();
 			this.updateTrechos((Fracional) rota);
 		} catch (Exception ex) {
-			throw new LogisticException("Erro durante a rotina de atualização de rotas.");
+			throw new LogisticException("<html>Erro durante a rotina de atualiza&ccedil;&atilde;o de rotas.</html>");
 		}
 	}
 
@@ -235,7 +237,7 @@ public class RotaDAOSQL implements IRotaDAO {
 		try {
 			return pstm.executeUpdate();
 		} catch (Exception ex) {
-			throw new LogisticException("Erro durante a rotina de atualização de rotas.");
+			throw new LogisticException("<html>Erro durante a rotina de atualiza&ccedil;&atilde;o de rotas.</html>");
 		}
 	}
 
@@ -248,7 +250,7 @@ public class RotaDAOSQL implements IRotaDAO {
 				this.update(rota.getTrecho(i));
 			}
 		} catch (Exception ex) {
-			throw new LogisticException("Erro durante a rotina de atualização de rotas.");
+			throw new LogisticException("<html>Erro durante a rotina de atualiza&ccedil;&atilde;o de rotas.</html>");
 		}
 	}
 
