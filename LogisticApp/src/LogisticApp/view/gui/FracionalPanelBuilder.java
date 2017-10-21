@@ -235,7 +235,8 @@ public class FracionalPanelBuilder extends RotaPanelBuilder implements ActionLis
 		if(currentModel.getSize() > 0){
 			RotaVO last = currentModel.getElementAt(currentModel.getSize() - 1);
 			if(!last.getDescricaoDestino().equals(rota.getDescricaoOrigem()))
-				throw new CadastroException("Trecho inválido. A próxima rota precisa possuir " + last.getDescricaoDestino() + " como origem.");
+				throw new CadastroException("<html>Trecho inv&aacute;lido. A pr&oacute;xima rota precisa possuir " + 
+							    last.getDescricaoDestino() + " como origem.</html>");
 		}
 		
 		for (int i = 0; i < currentModel.getSize(); i++) {
