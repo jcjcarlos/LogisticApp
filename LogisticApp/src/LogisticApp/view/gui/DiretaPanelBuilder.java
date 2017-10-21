@@ -77,7 +77,7 @@ public class DiretaPanelBuilder extends RotaPanelBuilder {
 		else if (custo == 0.0)
 			throw new CadastroException("O custo por grama deve ser maior que zero.");
 		else if (totalTempo == 0)
-			throw new CadastroException("A quantidade de dias para entrega não pode ser nula ou igual a zero.");
+			throw new CadastroException("<html>A quantidade de dias para entrega n&atilde;o pode ser nula ou igual a zero.</html>");
 
 		RotaPanelInfoVO rotaInfo = new RotaPanelInfoVO();
 		rotaInfo.setIdOrigem(origem.getId());
