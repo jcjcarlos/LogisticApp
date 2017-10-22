@@ -221,7 +221,8 @@ public class RotaDAOSQL implements IRotaDAO {
 		}
 		try {
 			pstm.executeUpdate();
-			this.updateTrechos((Fracional) rota);
+			if(rota instanceof Fracional)
+				this.updateTrechos((Fracional) rota);
 		} catch (Exception ex) {
 			throw new LogisticException("<html>Erro durante a rotina de atualiza&ccedil;&atilde;o de rotas.</html>");
 		}
